@@ -1,0 +1,21 @@
+.loading {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.layout {
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  .main {
+    flex: 1;
+  }
+
+  .footer {
+    //
+    border-top: 1px solid #d9dee2;
+  }
+}
