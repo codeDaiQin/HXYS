@@ -35,9 +35,9 @@ export default [
     Component: lazy(() => import("@/pages/me")),
   },
   {
-    // error
-    path: "*",
-    title: "出错啦",
-    Component: lazy(() => import("@/pages/error")),
+    // 搜索
+    path: "/search",
+    title: "搜索",
+    Component: lazy(() => import("@/pages/search")),
   },
 ] as RouterType[];

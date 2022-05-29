@@ -1,50 +1,33 @@
-import React, { useState, memo, Suspense, useEffect } from "react";
+import React, { useState, memo, Suspense, useEffect, useMemo } from "react";
 import { TabBar, SpinLoading } from "antd-mobile";
-import { Route, Routes, useNavigate, MemoryRouter } from "react-router-dom";
-import {
-  AppOutline,
-  MessageOutline,
-  UnorderedListOutline,
-  UserOutline,
-} from "antd-mobile-icons";
-import routers, { RouterType } from "@/router";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import routers, { RouterType } from "@/config/router";
+import menu from "@/config/menu";
+import Error from "@/pages/error";
+import { pathToRegexp } from "path-to-regexp";
 import Style from "./index.module.scss";
 
 const Bottom = memo(() => {
+  // 当前页面url
+  const { pathname, search } = location;
   const navigate = useNavigate();
-  const [active, setActive] = useState(location.pathname); // todo
-
-  const tabs = [
-    {
-      key: "/",
-      title: "首页",
-      icon: <AppOutline />,
-    },
-    {
-      key: "/buy",
-      title: "下单",
-      icon: <UnorderedListOutline />,
-    },
-    {
-      key: "/order",
-      title: "订单",
-      icon: <MessageOutline />,
-    },
-    {
-      key: "/me",
-      title: "我的",
-      icon: <UserOutline />,
-    },
-  ];
+  const [active, setActive] = useState(pathname + search); // todo
 
   useEffect(() => {
     navigate(active);
   }, [active]);
 
+  useEffect(() => {
+    // 根据pathname更改页面标题
+    document.title =
+      routers.find(({ path }) => pathToRegexp(path).exec(pathname))?.title ??
+      "出错啦";
+  }, [pathname]);
+
   return (
     <TabBar safeArea activeKey={active} onChange={(value) => setActive(value)}>
-      {tabs.map((item) => (
-        <TabBar.Item key={item.key} icon={item.icon} title={item.title} />
+      {menu.map((item) => (
+        <TabBar.Item key={item.path} icon={item.icon} title={item.title} />
       ))}
     </TabBar>
   );
@@ -66,7 +49,10 @@ export default memo(() => {
     <div className={Style.layout}>
       <main className={Style.main}>
         <Suspense fallback={<PageLoading />}>
-          <Routes>{renderRoutes(routers)}</Routes>
+          <Routes>
+            {renderRoutes(routers)}
+            <Route path="*" element={<Error />} />
+          </Routes>
         </Suspense>
       </main>
       <footer className={Style.footer}>
