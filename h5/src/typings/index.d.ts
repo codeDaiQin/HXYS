@@ -2,9 +2,9 @@
 
 interface IAppOption {
   globalData: {
-    userInfo?: WechatMiniprogram.UserInfo,
-  }
-  userInfoReadyCallback?: WechatMiniprogram.GetUserInfoSuccessCallback,
+    userInfo?: WechatMiniprogram.UserInfo;
+  };
+  userInfoReadyCallback?: WechatMiniprogram.GetUserInfoSuccessCallback;
 }
 
 declare module 'weixin-js-sdk';

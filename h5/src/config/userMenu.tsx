@@ -2,9 +2,9 @@ import {
   SetOutline,
   MessageOutline,
   UnorderedListOutline,
-  UserOutline,
-} from "antd-mobile-icons";
-import { MenuType } from "./menu";
+  UserOutline
+} from 'antd-mobile-icons';
+import { MenuType } from './menu';
 
 type UserMenuType = {
   extra?: string; // 额外信息
@@ -12,18 +12,18 @@ type UserMenuType = {
 
 export default [
   {
-    path: "/sort",
-    title: "分类",
-    icon: <UnorderedListOutline />,
+    path: '/sort',
+    title: '分类',
+    icon: <UnorderedListOutline />
   },
   {
-    path: "/shopping",
-    title: "购物车",
-    icon: <MessageOutline />,
+    path: '/shopping',
+    title: '购物车',
+    icon: <MessageOutline />
   },
   {
-    path: "/setting",
-    title: "设置",
-    icon: <SetOutline />,
-  },
+    path: '/setting',
+    title: '设置',
+    icon: <SetOutline />
+  }
 ] as UserMenuType[];

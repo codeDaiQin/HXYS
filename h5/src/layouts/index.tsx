@@ -1,11 +1,11 @@
-import React, { useState, memo, Suspense, useEffect, useMemo } from "react";
-import { TabBar, SpinLoading } from "antd-mobile";
-import { Route, Routes, useNavigate } from "react-router-dom";
-import routers, { RouterType } from "@/config/router";
-import menu from "@/config/menu";
-import Error from "@/pages/error";
-import { pathToRegexp } from "path-to-regexp";
-import Style from "./index.module.scss";
+import React, { useState, memo, Suspense, useEffect, useMemo } from 'react';
+import { TabBar, SpinLoading } from 'antd-mobile';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+import routers, { RouterType } from '@/config/router';
+import menu from '@/config/menu';
+import Error from '@/pages/error';
+import { pathToRegexp } from 'path-to-regexp';
+import Style from './index.module.scss';
 
 const Bottom = memo(() => {
   // 当前页面url
@@ -21,7 +21,7 @@ const Bottom = memo(() => {
     // 根据pathname更改页面标题
     document.title =
       routers.find(({ path }) => pathToRegexp(path).exec(pathname))?.title ??
-      "出错啦";
+      '出错啦';
   }, [pathname]);
 
   return (

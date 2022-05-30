@@ -1,0 +1,14 @@
+node_modules
+*.sh
+*.md
+*.woff
+*.ttf
+.vscode
+.idea
+dist
+/public
+/docs
+.husky
+.local
+/bin
+/src/typings
