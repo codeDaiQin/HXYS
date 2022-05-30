@@ -41,5 +41,11 @@ export default [
     path: '/search',
     title: '搜索',
     Component: lazy(() => import('@/pages/search'))
+  },
+  {
+    // 关于作者
+    path: '/about',
+    title: '关于作者',
+    Component: lazy(() => import('@/pages/about'))
   }
 ] as RouterType[];

@@ -17,8 +17,8 @@ export default [
     icon: <UnorderedListOutline />
   },
   {
-    path: '/shopping',
-    title: '购物车',
+    path: '/about',
+    title: '关于作者',
     icon: <MessageOutline />
   },
   {
