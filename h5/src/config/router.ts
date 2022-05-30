@@ -1,11 +1,13 @@
 import React, { lazy } from 'react';
-import { MemoryRouterProps } from 'react-router-dom';
+import { BrowserRouterProps } from 'react-router-dom';
 
 export type RouterType = {
   path: string; // 路由路径
   redirect?: string; // 重定向
   title: string; // 标题
-  Component: React.FC<MemoryRouterProps> | (() => any); // 组件
+  Component:
+    | React.FC<BrowserRouterProps>
+    | (() => React.ReactElement<BrowserRouterProps>); // 组件
   children?: RouterType[]; // 子路由
 };
 

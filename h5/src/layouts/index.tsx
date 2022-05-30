@@ -1,4 +1,4 @@
-import React, { useState, memo, Suspense, useEffect, useMemo } from 'react';
+import React, { useState, memo, Suspense, useEffect } from 'react';
 import { TabBar, SpinLoading } from 'antd-mobile';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import routers, { RouterType } from '@/config/router';
