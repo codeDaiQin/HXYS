@@ -1,0 +1,32 @@
+.container {
+  height: 100vh;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  header {
+    padding: 12px;
+    border-bottom: 1px solid #d9dee2;
+    display: flex;
+    .left {
+      flex: 1;
+    }
+    .right {
+      flex: none;
+      padding-left: 12px;
+    }
+  }
+  .main {
+    flex: 1;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: flex-start;
+    aside {
+      flex: none;
+    }
+    main {
+      flex: auto;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}

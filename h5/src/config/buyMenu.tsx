@@ -5,29 +5,21 @@ import {
 } from 'antd-mobile-icons';
 import { MenuType } from './menu';
 
-type UserMenuType = {
+type BuyMenuType = {
   extra?: string; // 额外信息
 } & MenuType;
 
 export default [
   {
-    path: '/sort',
-    title: '收货地址',
+    title: '篆刻',
     icon: <UnorderedListOutline />
   },
   {
-    path: '/about',
-    title: '关于海兴印社',
+    title: '书法',
     icon: <MessageOutline />
   },
   {
-    path: '/history',
-    title: '浏览历史',
-    icon: <MessageOutline />
-  },
-  {
-    path: '/setting',
-    title: '设置',
+    title: '礼品',
     icon: <SetOutline />
   }
-] as UserMenuType[];
+] as BuyMenuType[];

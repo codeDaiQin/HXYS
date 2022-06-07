@@ -4,7 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { ConfigProvider } from 'antd-mobile';
 import zhCN from 'antd-mobile/es/locales/zh-CN';
 import Layout from '@/layouts';
-import './index.module.scss';
+import './index.scss';
 
 const App: React.FC = () => {
   return (

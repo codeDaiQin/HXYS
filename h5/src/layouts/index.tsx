@@ -4,8 +4,7 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import routers, { RouterType } from '@/config/router';
 import menu from '@/config/menu';
 import Error from '@/pages/error';
-import { pathToRegexp } from 'path-to-regexp';
-import Style from './index.module.scss';
+import styles from './index.module.scss';
 
 const Bottom = memo(() => {
   // 当前页面url
@@ -17,13 +16,6 @@ const Bottom = memo(() => {
     navigate(active);
   }, [active]);
 
-  useEffect(() => {
-    // 根据pathname更改页面标题
-    document.title =
-      routers.find(({ path }) => pathToRegexp(path).exec(pathname))?.title ??
-      '出错啦';
-  }, [pathname]);
-
   return (
     <TabBar safeArea activeKey={active} onChange={(value) => setActive(value)}>
       {menu.map((item) => (
@@ -34,7 +26,7 @@ const Bottom = memo(() => {
 });
 
 const PageLoading = memo(() => (
-  <div className={Style.loading}>
+  <div className={styles.loading}>
     <SpinLoading />
   </div>
 ));
@@ -45,9 +37,17 @@ const renderRoutes = (routes: RouterType[]): React.ReactNode[] =>
   ));
 
 export default memo(() => {
+  const init = () => {
+    console.log('init');
+  };
+
+  useEffect(() => {
+    init();
+  }, []);
+
   return (
-    <div className={Style.layout}>
-      <main className={Style.main}>
+    <div className={styles.layout}>
+      <main className={styles.main}>
         <Suspense fallback={<PageLoading />}>
           <Routes>
             {renderRoutes(routers)}
@@ -55,7 +55,7 @@ export default memo(() => {
           </Routes>
         </Suspense>
       </main>
-      <footer className={Style.footer}>
+      <footer className={styles.footer}>
         <Bottom />
       </footer>
     </div>
