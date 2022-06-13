@@ -37,6 +37,12 @@ export default [
     Component: lazy(() => import('@/pages/me'))
   },
   {
+    // 我的
+    path: '/address',
+    title: '地址',
+    Component: lazy(() => import('@/pages/address'))
+  },
+  {
     // 关于作者
     path: '/about',
     title: '关于作者',

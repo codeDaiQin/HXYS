@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Card, List, Avatar } from 'antd-mobile';
 import userMenu from '@/config/userMenu';
 import { useNavigate } from 'react-router-dom';
-import Style from './index.module.scss';
+import styles from './index.module.scss';
 
 const url =
   'https://images.unsplash.com/photo-1548532928-b34e3be62fc6?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ';

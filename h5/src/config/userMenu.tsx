@@ -11,7 +11,7 @@ type UserMenuType = {
 
 export default [
   {
-    path: '/sort',
+    path: '/address',
     title: '收货地址',
     icon: <UnorderedListOutline />
   },
