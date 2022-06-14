@@ -11,9 +11,11 @@
   "dependencies": {
     "antd-mobile": "^5.12.6",
     "antd-mobile-icons": "^0.2.2",
+    "await-to-js": "^3.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.3.0",
+    "umi-request": "^1.4.0",
     "weixin-js-sdk": "^1.6.0"
   },
   "devDependencies": {

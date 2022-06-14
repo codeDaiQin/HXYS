@@ -22,6 +22,8 @@ Page({
           url: "http://127.0.0.1:8000/getOpenId", //仅为示例，并非真实的接口地址
           data: {
             code: res.code,
+            appId: 'wx8d3bbd9dbc9a98d7',
+            appSecret: '916a238c0f4d4caa3337e84f5887aa56'
           },
           // header: {
           //   "content-type": "application/json", // 默认值

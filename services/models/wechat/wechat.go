@@ -25,18 +25,31 @@ func GetOpenID(appId, appSecret, code string) (string, error) {
 }
 
 func codeToSession(appId, appSecret, code string) (*session, error) {
+	//生成client
+	client := &http.Client{}
+
 	url := fmt.Sprintf("https://api.weixin.qq.com/sns/jscode2session?"+
 		"appid=%s&secret=%s&js_code=%s&grant_type=authorization_code", appId, appSecret, code)
 
-	resp, err := http.NewRequest("GET", url, nil)
+	// 创建请求
+	req, err := http.NewRequest("GET", url, nil)
 
 	if err != nil {
 		return nil, fmt.Errorf("code: %s to session is err", code)
 	}
 
+	// 发送请求 并 处理返回结果
+	response, err := client.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("app(%s) code(%s) to session error(%v)", appId, code, err)
+	}
+	// 关闭连接
+	defer response.Body.Close()
+
 	result := &session{}
 
-	if err := json.NewDecoder(resp.Body).Decode(result); err != nil {
+	// 解析返回结果
+	if err := json.NewDecoder(response.Body).Decode(result); err != nil {
 		return nil, fmt.Errorf("unmarshal error(%v)", err)
 	}
 

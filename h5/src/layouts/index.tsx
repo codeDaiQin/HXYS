@@ -4,7 +4,9 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import routers, { RouterType } from '@/config/router';
 import menu from '@/config/menu';
 import Error from '@/pages/error';
+import to from 'await-to-js';
 import styles from './index.module.scss';
+import { getUserDetail } from '@/services/user';
 
 const Bottom = memo(() => {
   // 当前页面url
@@ -37,8 +39,12 @@ const renderRoutes = (routes: RouterType[]): React.ReactNode[] =>
   ));
 
 export default memo(() => {
-  const init = () => {
+  const init = async () => {
     console.log('init');
+    // 获取用户信息
+    const [err, user] = await to(getUserDetail());
+    if (err) return;
+    console.log(user);
   };
 
   useEffect(() => {

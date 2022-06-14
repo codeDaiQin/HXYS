@@ -6,6 +6,6 @@ export const getOrderList = async (params: OrderListRequest) => {
 };
 
 // 获取订单详情
-export const getOrderDetails = async (orderId: string) => {
+export const getOrderDetail = async (orderId: string) => {
   console.log(orderId);
 };

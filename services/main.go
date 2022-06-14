@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"HXYS/models/wechat"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -13,7 +14,7 @@ func main() {
 		code := c.Query("code")
 		appId := c.Query("appId")
 		appSecret := c.Query("appSecret")
-		openid, err :=	wechat.GetOpenID(appId, appSecret, code)
+		openid, err := wechat.GetOpenID(appId, appSecret, code)
 
 		if err != nil {
 			c.JSON(500, gin.H{
