@@ -19,7 +19,7 @@ Page({
         console.log(res.code);
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
         wx.request({
-          url: "http://127.0.0.1:8000/ping", //仅为示例，并非真实的接口地址
+          url: "http://127.0.0.1:8000/getOpenId", //仅为示例，并非真实的接口地址
           data: {
             code: res.code,
           },

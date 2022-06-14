@@ -1,15 +1,29 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"HXYS/models/wechat"
+)
 
 func main() {
 	r := gin.Default()
 	r.Use(Cors())
 
-	r.GET("/ping", func(c *gin.Context) {
+	r.GET("/getOpenId", func(c *gin.Context) {
 		code := c.Query("code")
+		appId := c.Query("appId")
+		appSecret := c.Query("appSecret")
+		openid, err :=	wechat.GetOpenID(appId, appSecret, code)
+
+		if err != nil {
+			c.JSON(500, gin.H{
+				"message": err.Error(),
+			})
+			return
+		}
+
 		c.JSON(200, gin.H{
-			"message": code,
+			"message": openid,
 		})
 	})
 	r.Run()
