@@ -28,3 +28,9 @@ export type OrderListRequest = {
 
 // 订单列表响应
 export type OrderListResponse = ListResponse<OrderBaseInfo>;
+
+// 订单详情请求
+export type OrderDetailRequest = Pick<OrderDetailInfo, 'orderId'>;
+
+// 订单详情响应
+export type OrderDetailResponse = OrderDetailInfo;

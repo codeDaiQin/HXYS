@@ -1,9 +1,17 @@
-import { getUserDetail } from '@/services/user';
-import { UserDetail } from '@/interface/user';
+import request from '@/utils/request';
+import { UserDetailResponse, WechatLoginRequest } from '@/interface/user';
 
 // 获取用户详情
-export const getUserDetail = async (): Promise<UserDetail> => {
-  return {
-    name: '张三'
-  };
+export const getUserDetail = async () => {
+  return request<UserDetailResponse>('/', {
+    method: 'GET'
+  });
+};
+
+// 微信code码登陆
+export const wechatLogin = async (params: WechatLoginRequest) => {
+  return request<any>('/', {
+    method: 'GET',
+    params
+  });
 };

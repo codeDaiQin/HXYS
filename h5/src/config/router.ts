@@ -53,5 +53,11 @@ export default [
     path: '/detail',
     title: '详情',
     Component: lazy(() => import('@/pages/detail'))
+  },
+  {
+    // 登陆
+    path: '/login',
+    title: '登陆',
+    Component: lazy(() => import('@/pages/login'))
   }
 ] as RouterType[];

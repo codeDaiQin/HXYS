@@ -40,11 +40,16 @@ const renderRoutes = (routes: RouterType[]): React.ReactNode[] =>
 
 export default memo(() => {
   const init = async () => {
-    console.log('init');
     // 获取用户信息
     const [err, user] = await to(getUserDetail());
-    if (err) return;
-    console.log(user);
+    if (err) {
+      console.log('出错了', err);
+      return;
+    }
+    if (!user) {
+      console.log('登陆状态已过期请重新登陆');
+      return;
+    }
   };
 
   useEffect(() => {
