@@ -1,18 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SideBar, SearchBar, Button, Space } from 'antd-mobile';
 import buyMenu from '@/config/buyMenu';
 import styles from './index.module.scss';
 
 export default React.memo(() => {
-  const [activeKey, setActiveKey] = useState(buyMenu[0].title);
+  const [activeKey, setActiveKey] = useState<string>(buyMenu[0].title);
 
   const doSearch = () => {
     console.log('134');
   };
 
+  useEffect(() => {
+    console.log('activeKey', activeKey);
+  }, [activeKey]);
+
   return (
     <div className={styles.container}>
-      {/* <header>
+      <header>
         <div className={styles.left}>
           <SearchBar placeholder="请输入内容" />
         </div>
@@ -21,7 +25,7 @@ export default React.memo(() => {
             搜索
           </Button>
         </div>
-      </header> */}
+      </header>
 
       <div className={styles.main}>
         <aside>

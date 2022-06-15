@@ -10,7 +10,7 @@ export const getUserDetail = async () => {
 
 // 微信code码登陆
 export const wechatLogin = async (params: WechatLoginRequest) => {
-  return request<any>('/', {
+  return request<UserDetailResponse>('/', {
     method: 'GET',
     params
   });

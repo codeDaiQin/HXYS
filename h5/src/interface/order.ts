@@ -1,6 +1,6 @@
 import { PaginationType, ListResponse, AddressType } from '.';
 
-export enum OrderListEnum {
+export enum OrderTypeEnum {
   InProgress, // 进行中
   Completed, // 已完成
   Refund // 退款
@@ -9,7 +9,7 @@ export enum OrderListEnum {
 // 基础订单信息
 export type OrderBaseInfo = {
   orderId: string;
-  status: OrderListEnum; // 订单状态
+  status: OrderTypeEnum; // 订单状态
 };
 
 // 订单详情信息
@@ -23,7 +23,7 @@ export type OrderDetailInfo = {
 
 // 订单列表请求
 export type OrderListRequest = {
-  type: OrderListEnum; // 订单状态
+  type: OrderTypeEnum; // 订单状态
 } & PaginationType;
 
 // 订单列表响应
