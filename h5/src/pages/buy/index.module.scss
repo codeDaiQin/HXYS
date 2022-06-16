@@ -35,10 +35,13 @@
 .list-item {
   display: flex;
   justify-content: space-between;
-  height: 90px;
+  padding: 10px 0;
   width: 100%;
   align-items: center;
   border-bottom: 1px solid #d9dee2;
+  &:first-child {
+    padding-top: 0;
+  }
   .cover-skeleton {
     width: 60px;
     height: 60px;
