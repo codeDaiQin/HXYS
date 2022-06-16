@@ -1,33 +1,31 @@
 package main
 
 import (
-	"HXYS/models/wechat"
+	"HXYS/pkg/setting"
+	"HXYS/routers"
+	"fmt"
+	"net/http"
+
+	"HXYS/conf"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	r := gin.Default()
-	r.Use(Cors())
+	// 初始化配置
+	conf.Init()
+	router := routers.InitRouter()
+	router.Use(Cors())
 
-	r.GET("/getOpenId", func(c *gin.Context) {
-		code := c.Query("code")
-		appId := c.Query("appId")
-		appSecret := c.Query("appSecret")
-		openid, err := wechat.GetOpenID(appId, appSecret, code)
+	s := &http.Server{
+		Addr:           fmt.Sprintf(":%d", setting.HTTPPort),
+		Handler:        router,
+		ReadTimeout:    setting.ReadTimeout,
+		WriteTimeout:   setting.WriteTimeout,
+		MaxHeaderBytes: 1 << 20,
+	}
 
-		if err != nil {
-			c.JSON(500, gin.H{
-				"message": "err",
-			})
-			return
-		}
-
-		c.JSON(200, gin.H{
-			"openid": openid,
-		})
-	})
-	r.Run()
+	s.ListenAndServe()
 }
 
 func Cors() gin.HandlerFunc {
