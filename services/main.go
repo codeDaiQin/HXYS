@@ -18,13 +18,13 @@ func main() {
 
 		if err != nil {
 			c.JSON(500, gin.H{
-				"message": err.Error(),
+				"message": "err",
 			})
 			return
 		}
 
 		c.JSON(200, gin.H{
-			"message": openid,
+			"openid": openid,
 		})
 	})
 	r.Run()

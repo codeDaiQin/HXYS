@@ -11,20 +11,22 @@ export default React.memo(() => {
   const navigate = useNavigate();
 
   return (
-    <Grid columns={1} gap={8}>
-      {/* userMenu */}
-      <List mode="card">
-        {userMenu.map((item) => (
-          <List.Item
-            key={item.path}
-            extra={item.extra}
-            prefix={item.icon}
-            onClick={() => navigate(item.path)}
-          >
-            {item.title}
-          </List.Item>
-        ))}
-      </List>
-    </Grid>
+    <>
+      <Grid columns={1} gap={8}>
+        {/* userMenu */}
+        <List mode="card">
+          {userMenu.map((item) => (
+            <List.Item
+              key={item.path}
+              extra={item.extra}
+              prefix={item.icon}
+              onClick={() => navigate(item.path)}
+            >
+              {item.title}
+            </List.Item>
+          ))}
+        </List>
+      </Grid>
+    </>
   );
 });

@@ -1,6 +1,7 @@
 import React from 'react';
-import { Swiper, Toast } from 'antd-mobile';
+import { Button, Swiper, Toast } from 'antd-mobile';
 import styles from './index.module.scss';
+import { useNavigate } from 'react-router-dom';
 
 const colors = ['#ace0ff', '#bcffbd', '#e4fabd', '#ffcfac'];
 
@@ -19,8 +20,9 @@ const items = colors.map((color, index) => (
 ));
 
 export default React.memo(() => {
+  const navigate = useNavigate();
   return (
-    <div>
+    <>
       <Swiper
         loop
         autoplay
@@ -30,6 +32,7 @@ export default React.memo(() => {
       >
         {items}
       </Swiper>
-    </div>
+      <Button onClick={() => navigate('/login')}>去登陆</Button>
+    </>
   );
 });

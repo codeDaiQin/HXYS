@@ -1,3 +1,5 @@
+import { AddressType } from '.';
+
 // 用户基础信息
 export type UserBaseInfo = {
   userId: string;
@@ -6,10 +8,10 @@ export type UserBaseInfo = {
 
 // 用户详情信息
 export type UserDetailInfo = {
-  phone: string;
+  address: AddressType[];
 } & UserBaseInfo;
 
-//
+// 微信登陆请求
 export type WechatLoginRequest = {
   code: string;
   appSecret: string;

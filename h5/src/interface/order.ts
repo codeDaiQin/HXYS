@@ -17,8 +17,6 @@ export type OrderDetailInfo = {
   createTime: number; // 创建时间 时间戳
   remarks: string; // 备注
   address: AddressType; // 收货地址
-  consignee: string; // 收货人
-  phone: number; // 手机号
 } & OrderBaseInfo;
 
 // 订单列表请求

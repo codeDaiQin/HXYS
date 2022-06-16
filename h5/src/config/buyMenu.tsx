@@ -3,23 +3,33 @@ import {
   MessageOutline,
   UnorderedListOutline
 } from 'antd-mobile-icons';
-import { MenuType } from './menu';
+import { GoodsType } from '@/interface/goods';
 
 type BuyMenuType = {
-  extra?: string; // 额外信息
-} & MenuType;
+  key: GoodsType;
+  title: string;
+  icon: React.ReactNode;
+};
 
 export default [
   {
+    key: 'sealCutting',
     title: '篆刻',
     icon: <UnorderedListOutline />
   },
   {
+    key: 'calligraphy',
     title: '书法',
     icon: <MessageOutline />
   },
   {
+    key: 'gift',
     title: '礼品',
+    icon: <SetOutline />
+  },
+  {
+    key: 'other',
+    title: '其他',
     icon: <SetOutline />
   }
 ] as BuyMenuType[];

@@ -15,6 +15,10 @@ const Bottom = memo(() => {
   const [active, setActive] = useState(pathname + search); // todo
 
   useEffect(() => {
+    setActive(pathname + search);
+  }, [pathname]);
+
+  useEffect(() => {
     navigate(active);
   }, [active]);
 
@@ -39,11 +43,15 @@ const renderRoutes = (routes: RouterType[]): React.ReactNode[] =>
   ));
 
 export default memo(() => {
+  const navigate = useNavigate();
+
   const init = async () => {
     // 获取用户信息
     const [err, user] = await to(getUserDetail());
     if (err) {
       console.log('出错了', err);
+      // window.location.href = '/login';
+      // navigate('/login');
       return;
     }
     if (!user) {

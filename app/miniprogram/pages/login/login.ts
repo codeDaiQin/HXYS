@@ -1,4 +1,14 @@
 Page({
+  onLoad() {
+    // 登录
+    wx.login({
+      success: (res) => {
+        wx.navigateTo({
+          url: `../test/test?code=${res.code}`,
+        });
+      },
+    });
+  },
   getUserProfile() {
     // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认，开发者妥善保管用户快速填写的头像昵称，避免重复弹窗
     wx.getUserProfile({
@@ -22,8 +32,8 @@ Page({
           url: "http://127.0.0.1:8000/getOpenId", //仅为示例，并非真实的接口地址
           data: {
             code: res.code,
-            appId: 'wx8d3bbd9dbc9a98d7',
-            appSecret: '916a238c0f4d4caa3337e84f5887aa56'
+            appId: "wx8d3bbd9dbc9a98d7",
+            appSecret: "916a238c0f4d4caa3337e84f5887aa56",
           },
           // header: {
           //   "content-type": "application/json", // 默认值

@@ -1,12 +1,17 @@
 Page({
   data: {
-    url: 'http://localhost:3000/'
+    url: "http://localhost:3000",
   },
-  onLoad() {
-    console.log('web-view 测试');
+  onLoad(options) {
+    const { code } = options;
+    if (code) {
+      this.setData({
+        url: `http://localhost:3000/login?code=${code}`,
+      });
+    }
   },
-  // 向 h5 端发送消息
+  // 接受h5发送的数据
   receivePostMsg(e: any) {
-    console.log(e, 'receivePostMsg');
-  }
+    console.log(e, "receivePostMsg");
+  },
 });
