@@ -11,7 +11,33 @@ import (
 
 // GetGoodsDetail	获取商品详情
 func GetGoodsDetail(c *gin.Context) {
+	goodsId := c.Param("goods_id")
+	if goodsId == "" {
+		c.JSON(http.StatusOK, gin.H{
+			"code": e.INVALID_PARAMS,
+			"msg":  e.GetMsg(e.INVALID_PARAMS),
+		})
+		return
+	}
 
+	maps := make(map[string]interface{})
+	maps["goods_id"] = goodsId
+
+	data, err := goods.GetGoodsDetail(maps)
+	// 商品不存在
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"code": e.ERROR_NOT_EXIST_GOODS,
+			"msg":  e.GetMsg(e.ERROR_NOT_EXIST_GOODS),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"code": e.SUCCESS,
+		"msg":  e.GetMsg(e.SUCCESS),
+		"data": data,
+	})
 }
 
 // AddGoods	新增商品
@@ -28,25 +54,23 @@ func DeleteGoods(c *gin.Context) {
 
 // GetGoodsList 获取商品列表
 func GetGoodsList(c *gin.Context) {
-	//goodsType := c.Param("goodsType")
+	goodsType := c.Query("goods_type")
 
 	maps := make(map[string]interface{})
 	data := make(map[string]interface{})
 
-	//if goodsType != "" {
-	//	maps["goodsType"] = goodsType
-	//}
-	//
-	//var state int = -1
-	//if arg := c.Query("state"); arg != "" {
-	//	state = com.StrTo(arg).MustInt()
-	//	maps["state"] = state
-	//}
+	if goodsType != "" {
+		maps["goods_type"] = goodsType
+	}
 
 	code := e.SUCCESS
 
-	data["lists"] = goods.GetGoodsList(util.GetPage(c), setting.PageSize, maps)
+	list, err := goods.GetGoodsList(util.GetPage(c), setting.PageSize, maps)
+	if err != nil {
+		code = e.ERROR
+	}
 	data["total"] = goods.GetGoodsTotal(maps)
+	data["list"] = list
 
 	c.JSON(http.StatusOK, gin.H{
 		"code": code,
@@ -54,5 +78,3 @@ func GetGoodsList(c *gin.Context) {
 		"data": data,
 	})
 }
-
-//

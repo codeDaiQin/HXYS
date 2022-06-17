@@ -7,17 +7,11 @@ import {
 } from '@/interface/order';
 
 // 获取订单列表
-export const getOrderList = async (params: OrderListRequest) => {
-  return request<OrderListResponse>('/order', {
-    method: 'GET',
-    params
-  });
-};
+export const getOrderList = async (
+  params: OrderListRequest
+): Promise<OrderListResponse> => request.get('/order', { params });
 
 // 获取订单详情
-export const getOrderDetail = async (params: OrderDetailRequest) => {
-  return request<OrderDetailResponse>('/order', {
-    method: 'GET',
-    params
-  });
-};
+export const getOrderDetail = async (
+  params: OrderDetailRequest
+): Promise<OrderDetailResponse> => request.get('/order', { params });

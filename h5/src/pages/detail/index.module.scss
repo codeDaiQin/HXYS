@@ -1,0 +1,11 @@
+.swiper-container {
+  .swiper-item {
+    height: 30vh;
+    position: relative;
+    img {
+      z-index: -1;
+      height: 100%;
+      width: 100%;
+    }
+  }
+}

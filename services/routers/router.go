@@ -23,7 +23,7 @@ func InitRouter() *gin.Engine {
 		// 获取商品列表
 		goods.GET("/list", v1.GetGoodsList)
 		// 获取商品详情
-		goods.GET("/:id", v1.GetGoodsDetail)
+		goods.GET("/:goods_id", v1.GetGoodsDetail)
 		//	新增商品
 		goods.POST("/add", v1.AddGoods)
 		//	修改商品

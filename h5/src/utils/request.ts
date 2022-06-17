@@ -1,40 +1,23 @@
-/**
- * request 网络请求工具
- * 更详细的 api 文档: https://github.com/umijs/umi-request
- */
-import { extend } from 'umi-request';
+import axios from 'axios';
 
-/**
- * 异常处理程序
- */
-const errorHandler = (error: { response: Response }): Response => {
-  console.log(error, 'error');
-  const { response } = error;
-  if (response && response.status) {
-    const errorText = response.statusText;
-    const { status, url } = response;
-  } else if (!response) {
-    console.log(error);
+const request = axios.create({
+  baseURL: import.meta.env.VITE_BASE_URL,
+  timeout: 1000
+});
+
+request.interceptors.request.use(
+  (config) => {
+    return config;
+  },
+  (err) => {
+    return Promise.reject(err);
   }
-  return response;
-};
+);
 
-const request = extend({
-  errorHandler,
-  // credentials: 'include' // 默认请求是否带上cookie
-  credentials: 'omit'
-});
+request.interceptors.response.use((response) => {
+  const { data } = response;
 
-request.interceptors.request.use((url, options) => {
-  return {
-    url: 'http://localhost:4396' + url,
-    options
-  };
-});
-
-request.interceptors.response.use(async (response) => {
-  console.log(response);
-  return response;
+  return data.data;
 });
 
 export default request;

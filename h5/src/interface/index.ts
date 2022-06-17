@@ -5,12 +5,8 @@ export type PaginationType = {
 
 // 列表response
 export type ListResponse<T> = {
-  code: number;
-  msg: string;
-  data: {
-    total: number;
-    list: T[];
-  };
+  total: number;
+  list: T[];
 };
 
 // 地址

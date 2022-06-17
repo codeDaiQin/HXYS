@@ -9,6 +9,7 @@ export type RouterType = {
     | React.FC<BrowserRouterProps>
     | (() => React.ReactElement<BrowserRouterProps>); // 组件
   children?: RouterType[]; // 子路由
+  showMenu?: boolean; // 是否展示菜单
 };
 
 export default [
@@ -16,31 +17,35 @@ export default [
     // 首页
     path: '/',
     title: '首页',
-    Component: lazy(() => import('@/pages/home'))
+    Component: lazy(() => import('@/pages/home')),
+    showMenu: true
   },
   {
-    // 下单
+    // 分类
     path: '/buy',
-    title: '下单',
-    Component: lazy(() => import('@/pages/buy'))
+    title: '分类',
+    Component: lazy(() => import('@/pages/buy')),
+    showMenu: true
   },
   {
     // 订单
     path: '/order',
     title: '订单',
-    Component: lazy(() => import('@/pages/order'))
+    Component: lazy(() => import('@/pages/order')),
+    showMenu: true
   },
   {
     // 我的
     path: '/me',
     title: '我的',
-    Component: lazy(() => import('@/pages/me'))
+    Component: lazy(() => import('@/pages/me')),
+    showMenu: true
   },
   {
     // 我的
     path: '/address',
     title: '地址',
-    Component: lazy(() => import('@/pages/address'))
+    Component: lazy(() => import('@/pages/address/detail'))
   },
   {
     // 关于作者

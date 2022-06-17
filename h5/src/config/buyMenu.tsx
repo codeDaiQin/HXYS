@@ -13,22 +13,22 @@ type BuyMenuType = {
 
 export default [
   {
-    key: 'sealCutting',
+    key: GoodsType.sealCutting,
     title: '篆刻',
     icon: <UnorderedListOutline />
   },
   {
-    key: 'calligraphy',
+    key: GoodsType.calligraphy,
     title: '书法',
     icon: <MessageOutline />
   },
   {
-    key: 'gift',
+    key: GoodsType.gift,
     title: '礼品',
     icon: <SetOutline />
   },
   {
-    key: 'other',
+    key: GoodsType.other,
     title: '其他',
     icon: <SetOutline />
   }

@@ -1,13 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { SideBar, SearchBar, Button, Space, Skeleton } from 'antd-mobile';
+import { useNavigate } from 'react-router-dom';
+import to from 'await-to-js';
 import buyMenu from '@/config/buyMenu';
 import { GoodsBaseInfo, GoodsType } from '@/interface/goods';
-import to from 'await-to-js';
 import { getGoodsList } from '@/services/goods';
 import styles from './index.module.scss';
 
 export default React.memo(() => {
-  const [goodsType, setGoodsType] = useState<GoodsType>(GoodsType.calligraphy);
+  const navigate = useNavigate();
+  const [goodsType, setGoodsType] = useState<GoodsType>(GoodsType.sealCutting);
   const [list, setList] = useState<GoodsBaseInfo[]>([]);
   const [loading, setLoading] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -26,9 +28,7 @@ export default React.memo(() => {
       console.log(err);
       return;
     }
-    console.log(result);
-    const { code, data, msg } = result;
-    const { total, list = [] } = data;
+    const { total, list = [] } = result;
     setList(list);
     setLoading(false);
   };
@@ -71,25 +71,16 @@ export default React.memo(() => {
             </SideBar>
           </aside>
           <main ref={containerRef}>
-            {(loading ? new Array(skeletonCount).fill('') : list).map(
-              (item, index) => (
-                <div
-                  key={item?.goodsId ?? index}
-                  className={styles['list-item']}
-                >
-                  {item?.cover ?? (
-                    <Skeleton animated className={styles['cover-skeleton']} />
-                  )}
-                  {item?.name ?? (
-                    <Skeleton.Paragraph
-                      animated
-                      lineCount={2}
-                      className={styles['title-skeleton']}
-                    />
-                  )}
-                </div>
-              )
-            )}
+            {list.map((item) => (
+              <div
+                onClick={() => navigate(`/detail?goods_id=${item.goods_id}`)}
+                key={item.goods_id}
+                className={styles['list-item']}
+              >
+                {item.goods_name}
+                {item.goods_name}
+              </div>
+            ))}
           </main>
         </div>
       </div>

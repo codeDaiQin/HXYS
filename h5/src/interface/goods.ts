@@ -13,8 +13,8 @@ export enum GoodsType {
 export type GoodsBaseInfo = {
   goods_id: string;
   goods_type: GoodsType;
-  name: string;
-  cover: string; // 封面图
+  goods_name: string;
+  covers: string[]; // 封面图
 };
 
 // 商品详情信息
