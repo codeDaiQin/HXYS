@@ -7,7 +7,7 @@ import (
 	"HXYS/pkg/setting"
 )
 
-// 分页
+// GetPage 分页
 func GetPage(c *gin.Context) int {
 	result := 0
 	page, _ := com.StrTo(c.Query("pageSize")).Int()

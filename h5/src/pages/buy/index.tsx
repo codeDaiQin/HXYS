@@ -7,7 +7,7 @@ import { getGoodsList } from '@/services/goods';
 import styles from './index.module.scss';
 
 export default React.memo(() => {
-  const [goodsType, setGoodsType] = useState<GoodsType>('calligraphy');
+  const [goodsType, setGoodsType] = useState<GoodsType>(GoodsType.calligraphy);
   const [list, setList] = useState<GoodsBaseInfo[]>([]);
   const [loading, setLoading] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -18,18 +18,19 @@ export default React.memo(() => {
       0) / 90
   ); // 骨架屏数量
 
-  const doSearch = async (type: GoodsType = 'all') => {
+  const doSearch = async (type: GoodsType = GoodsType.all) => {
     setLoading(true);
-
     // 根据类型获取商品列表
-    const [err, result] = await to(getGoodsList({ goodsType: type }));
+    const [err, result] = await to(getGoodsList({ goods_type: type }));
     if (err) {
       console.log(err);
       return;
     }
-    const { total, list = [] } = result;
+    console.log(result);
+    const { code, data, msg } = result;
+    const { total, list = [] } = data;
     setList(list);
-    // setLoading(false);
+    setLoading(false);
   };
 
   useEffect(() => {

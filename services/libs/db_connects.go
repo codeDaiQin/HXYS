@@ -1,4 +1,4 @@
-package models
+package libs
 
 import (
 	"fmt"
@@ -11,7 +11,7 @@ import (
 	"HXYS/pkg/setting"
 )
 
-var db *gorm.DB
+var Db *gorm.DB
 
 type Model struct {
 	ID         int `gorm:"primary_key" json:"id"`
@@ -36,12 +36,13 @@ func init() {
 	host = sec.Key("HOST").String()
 	tablePrefix = sec.Key("TABLE_PREFIX").String()
 
-	db, err = gorm.Open(
-		mysql.Open(fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
-			user,
-			password,
-			host,
-			dbName)), &gorm.Config{
+	Db, err = gorm.Open(
+		mysql.Open(
+			fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+				user,
+				password,
+				host,
+				dbName)), &gorm.Config{
 			NamingStrategy: schema.NamingStrategy{
 				TablePrefix:   tablePrefix, // 表名前缀
 				SingularTable: true,        // 使用单数表名，启用该选项，表名将变为单数 tags -> tag
@@ -49,11 +50,12 @@ func init() {
 		})
 
 	if err != nil {
-		log.Println(err)
+		log.Fatalf("Fail to connect database: %v", err)
 	}
 
-	sqlDB, err := db.DB()
-	if err != nil {
+	sqlDB, err := Db.DB()
+	if err != nil { // 连接数据库
+		CloseDB()
 		log.Println(err)
 	}
 	sqlDB.SetMaxIdleConns(10)
@@ -61,7 +63,7 @@ func init() {
 }
 
 func CloseDB() {
-	sqlDB, err := db.DB()
+	sqlDB, err := Db.DB()
 	if err != nil {
 		log.Println(err)
 	}

@@ -1,13 +1,16 @@
 // 分页
 export type PaginationType = {
-  pageSize: number;
-  pageNum: number;
+  pageSize?: number;
 };
 
 // 列表response
 export type ListResponse<T> = {
-  total: number;
-  list: T[];
+  code: number;
+  msg: string;
+  data: {
+    total: number;
+    list: T[];
+  };
 };
 
 // 地址

@@ -8,7 +8,7 @@ import {
 
 // 获取商品列表
 export const getGoodsList = async (params: GoodsListRequest) => {
-  return request<GoodsListResponse>('/', {
+  return request<GoodsListResponse>('/api/v1/goods/list', {
     method: 'GET',
     params
   });

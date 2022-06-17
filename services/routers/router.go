@@ -10,6 +10,8 @@ import (
 func InitRouter() *gin.Engine {
 	r := gin.New()
 
+	r.Use(Cors())
+
 	r.Use(gin.Logger())
 
 	r.Use(gin.Recovery())
@@ -19,11 +21,11 @@ func InitRouter() *gin.Engine {
 	goods := r.Group("/api/v1/goods")
 	{
 		// 获取商品列表
-		goods.GET("/", v1.GetGoodsList)
+		goods.GET("/list", v1.GetGoodsList)
 		// 获取商品详情
 		goods.GET("/:id", v1.GetGoodsDetail)
 		//	新增商品
-		goods.POST("/", v1.AddGoods)
+		goods.POST("/add", v1.AddGoods)
 		//	修改商品
 		goods.PUT("/:id", v1.EditGoods)
 		//	删除商品
@@ -38,4 +40,13 @@ func InitRouter() *gin.Engine {
 
 	// https://eddycjy.com/posts/go/gin/2018-02-12-api-02/
 	return r
+}
+
+func Cors() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Header("Access-Control-Allow-Origin", "*")
+		c.Header("Access-Control-Allow-Headers", "*")
+		c.Header("Access-Control-Allow-Methods", "*")
+		c.Header("Access-control-allow-credentials", "true")
+	}
 }
