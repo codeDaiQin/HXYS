@@ -1,7 +1,8 @@
+import { SpecsType } from '@/interface/goods';
 import React from 'react';
 
 export type DynamicFormProps = {
-  specs: any[]; // 规格
+  specs: SpecsType[]; // 规格
 };
 
 const DynamicForm: React.FC<DynamicFormProps> = (props) => {

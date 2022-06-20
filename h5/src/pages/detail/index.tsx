@@ -98,6 +98,11 @@ export default React.memo(() => {
             onClick={() => setPopupVisible(false)}
             className={styles['icon-close']}
           />
+          <footer>
+            <Button block onClick={() => setPopupVisible(false)}>
+              确认
+            </Button>
+          </footer>
         </div>
       </Popup>
     </div>

@@ -3,11 +3,12 @@ import { TabBar, SpinLoading, Toast } from 'antd-mobile';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import to from 'await-to-js';
 import wx from 'weixin-js-sdk';
-import { getUserDetail, wechatLogin } from '@/services/user';
+import { wechatLogin } from '@/services/user';
 import routers, { RouterType } from '@/config/router';
 import menu from '@/config/menu';
 import Error from '@/pages/error';
 import { querystring } from '@/utils';
+import { localSet } from '@/utils/localstorage';
 import styles from './index.module.scss';
 
 const Bottom = memo(() => {
@@ -59,7 +60,7 @@ export default memo(() => {
   const init = async () => {
     // 如果有登陆状态直接retrun
     // if (!'hasLoginState') return;
-    const { code } = querystring(location.search);
+    const { code, nickName, avatarUrl } = querystring(location.search);
     if (!code) {
       // 跳转到登录页
       wx.miniProgram.redirectTo({ url: '/pages/login/login' });
@@ -75,7 +76,7 @@ export default memo(() => {
       return;
     }
     // 存储
-    localStorage.setItem('openId', user.userId);
+    localSet('openId', user.userId);
 
     if (!user) {
       Toast.show({

@@ -1,4 +1,4 @@
-package wechat
+package user
 
 import (
 	"encoding/json"
@@ -14,6 +14,7 @@ type session struct {
 	Errmsg     string `json:"errmsg"`      // 错误信息
 }
 
+// GetOpenID 获取openid
 func GetOpenID(appId, appSecret, code string) (string, error) {
 	seesion, err := codeToSession(appId, appSecret, code)
 
@@ -24,6 +25,7 @@ func GetOpenID(appId, appSecret, code string) (string, error) {
 	return seesion.Openid, nil
 }
 
+// codeToSession 获取session
 func codeToSession(appId, appSecret, code string) (*session, error) {
 	//生成client
 	client := &http.Client{}
@@ -43,6 +45,7 @@ func codeToSession(appId, appSecret, code string) (*session, error) {
 	if err != nil {
 		return nil, fmt.Errorf("app(%s) code(%s) to session error(%v)", appId, code, err)
 	}
+
 	// 关闭连接
 	defer response.Body.Close()
 
@@ -54,4 +57,14 @@ func codeToSession(appId, appSecret, code string) (*session, error) {
 	}
 
 	return result, nil
+}
+
+// GetUserInfo 获取用户信息
+func GetUserInfo(openid string) error {
+	return nil
+}
+
+// AddUser 注册用户
+func AddUser(openid string) error {
+	return nil
 }
