@@ -22,9 +22,9 @@ export default [
   },
   {
     // 分类
-    path: '/buy',
+    path: '/sort',
     title: '分类',
-    Component: lazy(() => import('@/pages/buy')),
+    Component: lazy(() => import('@/pages/sort')),
     showMenu: true
   },
   {

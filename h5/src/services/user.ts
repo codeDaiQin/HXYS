@@ -3,7 +3,7 @@ import { UserDetailResponse, WechatLoginRequest } from '@/interface/user';
 
 // 获取用户详情
 export const getUserDetail = async (): Promise<UserDetailResponse> =>
-  request.get('/');
+  request.get('/wechatLogin');
 
 // 微信code码登陆
 export const wechatLogin = async (

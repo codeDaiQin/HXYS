@@ -35,7 +35,7 @@ func InitRouter() *gin.Engine {
 	user := r.Group("/api/v1/user")
 	{
 		// 获取用户信息
-		user.GET("/", v1.GetOpenId)
+		user.GET("/wechatLogin", v1.WechatLogin)
 	}
 
 	// https://eddycjy.com/posts/go/gin/2018-02-12-api-02/

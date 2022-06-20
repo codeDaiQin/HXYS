@@ -4,7 +4,7 @@ Page({
     wx.login({
       success: (res) => {
         wx.navigateTo({
-          url: `../test/test?code=${res.code}`,
+          url: `../index/index?code=${res.code}`,
         });
       },
     });

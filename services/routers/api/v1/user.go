@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetOpenId(c *gin.Context) {
+func WechatLogin(c *gin.Context) {
 	code := c.Query("code")
 	appId := c.Query("appId")
 	appSecret := c.Query("appSecret")

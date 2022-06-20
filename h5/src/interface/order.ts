@@ -1,4 +1,5 @@
 import { PaginationType, ListResponse, AddressType } from '.';
+import { GoodsDetailInfo } from './goods';
 
 export enum OrderTypeEnum {
   InProgress, // 进行中
@@ -17,6 +18,7 @@ export type OrderDetailInfo = {
   createTime: number; // 创建时间 时间戳
   remarks: string; // 备注
   address: AddressType; // 收货地址
+  goods: GoodsDetailInfo;
 } & OrderBaseInfo;
 
 // 订单列表请求

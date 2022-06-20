@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { querystring } from '@/utils';
 import { wechatLogin } from '@/services/user';
 import wx from 'weixin-js-sdk';
+import { useNavigate } from 'react-router-dom';
 
 export default React.memo(() => {
+  const navigate = useNavigate();
   const login = async () => {
     const { code } = querystring(location.search);
     if (!code) {
@@ -13,8 +15,10 @@ export default React.memo(() => {
     }
     const appSecret = import.meta.env.VITE_APP_SECRET;
     const appId = import.meta.env.VITE_APP_ID;
-    const openId = await wechatLogin({ code, appSecret, appId });
+    const user = await wechatLogin({ code, appSecret, appId });
     // 存储
+    localStorage.setItem('openId', user.userId);
+    navigate('/');
   };
 
   useEffect(() => {

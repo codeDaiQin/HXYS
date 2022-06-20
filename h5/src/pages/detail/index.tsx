@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import to from 'await-to-js';
-import { Swiper, ImageViewer } from 'antd-mobile';
+import { Swiper, ImageViewer, Button, Popup, Avatar, Card } from 'antd-mobile';
 import { querystring } from '@/utils';
 import { GoodsDetailInfo } from '@/interface/goods';
 import { getGoodsDetail } from '@/services/goods';
 import styles from './index.module.scss';
+import { CloseOutline } from 'antd-mobile-icons';
+import DynamicForm from '@/components/DynamicForm';
 
 export default React.memo(() => {
   const [currentImg, setCurrentImg] = useState(0);
-  const [visible, setVisible] = useState(false);
+  const [imageViewerVisible, setImageViewerVisible] = useState(false); // 图片预览图层
+  const [popupVisible, setPopupVisible] = useState(false); // 商品规格抽屉
   const [loading, setLoading] = useState(false);
   const [detail, setDetail] = useState<GoodsDetailInfo>();
 
@@ -45,7 +48,7 @@ export default React.memo(() => {
               className={styles['swiper-item']}
               onClick={() => {
                 setCurrentImg(index);
-                setVisible(true);
+                setImageViewerVisible(true);
               }}
             >
               <img src={item} alt="" />
@@ -56,12 +59,47 @@ export default React.memo(() => {
       {/* 图片预览 */}
       <ImageViewer.Multi
         images={detail?.covers}
-        visible={visible}
+        visible={imageViewerVisible}
         defaultIndex={currentImg}
-        onClose={() => {
-          setVisible(false);
-        }}
+        onClose={() => setImageViewerVisible(false)}
       />
+      <main></main>
+      <footer className={styles['settlement-container']}>
+        <Button onClick={() => setPopupVisible(true)}>收藏</Button>
+        <Button onClick={() => setPopupVisible(true)}>立即购买</Button>
+      </footer>
+      <Popup
+        visible={popupVisible}
+        onMaskClick={() => setPopupVisible(false)}
+        bodyStyle={{ height: '90vh', background: '#f2f2f2' }}
+      >
+        <div className={styles['popup-container']}>
+          <header>
+            <Avatar src="https://images.unsplash.com/photo-1601128533718-374ffcca299b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=3128&q=80" />
+            <p>商品名称</p>
+          </header>
+          <Card
+            onClick={() => {
+              console.log('go to address');
+            }}
+          >
+            选择地址
+          </Card>
+
+          <Card
+            style={{ marginTop: 8 }}
+            onClick={() => {
+              console.log('go to address');
+            }}
+          >
+            <DynamicForm specs={[]} />
+          </Card>
+          <CloseOutline
+            onClick={() => setPopupVisible(false)}
+            className={styles['icon-close']}
+          />
+        </div>
+      </Popup>
     </div>
   );
 });

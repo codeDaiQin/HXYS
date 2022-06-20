@@ -9,6 +9,19 @@ export enum GoodsType {
   other = '4' // 其他
 }
 
+// 书法商品规格
+export type CalligraphySpecsType = {
+  size: 'big' | 'samll'; // 尺寸
+};
+
+// 篆刻商品规格
+export type SealCuttingSpecsType = {
+  typeface: string; // 字体
+};
+
+// 商品规格信息
+export type SpecsType = CalligraphySpecsType | SealCuttingSpecsType;
+
 // 商品基本信息
 export type GoodsBaseInfo = {
   goods_id: string;
@@ -20,6 +33,7 @@ export type GoodsBaseInfo = {
 // 商品详情信息
 export type GoodsDetailInfo = {
   price: number; // 价格
+  specs: []; // 规格
 } & GoodsBaseInfo;
 
 // 商品详情请求
