@@ -1,5 +1,6 @@
-import { SpecsType } from '@/interface/goods';
 import React from 'react';
+import { Form } from 'antd-mobile';
+import { SpecsType } from '@/interface/goods';
 
 export type DynamicFormProps = {
   specs: SpecsType[]; // 规格
@@ -7,7 +8,15 @@ export type DynamicFormProps = {
 
 const DynamicForm: React.FC<DynamicFormProps> = (props) => {
   const { specs } = props;
-  return <div>DynamicForm</div>;
+  return (
+    <div>
+      <Form>
+        {specs.map((item) => (
+          <Form.Item>11</Form.Item>
+        ))}
+      </Form>
+    </div>
+  );
 };
 
 export default React.memo(DynamicForm);

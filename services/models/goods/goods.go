@@ -12,6 +12,7 @@ type Goods struct {
 
 // GetGoodsList	获取商品列表
 func GetGoodsList(pageNum int, pageSize int, maps interface{}) (goods []Goods, err error) {
+	// 查询goods表
 	err = libs.Db.Where(maps).Offset(pageNum).Limit(pageSize).Find(&goods).Error
 	return
 }

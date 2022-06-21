@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import to from 'await-to-js';
 import { Swiper, ImageViewer, Button, Popup, Avatar, Card } from 'antd-mobile';
+import to from 'await-to-js';
+import { CloseOutline } from 'antd-mobile-icons';
+import DynamicForm from '@/components/DynamicForm';
 import { querystring } from '@/utils';
 import { GoodsDetailInfo } from '@/interface/goods';
 import { getGoodsDetail } from '@/services/goods';
 import styles from './index.module.scss';
-import { CloseOutline } from 'antd-mobile-icons';
-import DynamicForm from '@/components/DynamicForm';
 
 export default React.memo(() => {
   const [currentImg, setCurrentImg] = useState(0);
@@ -17,7 +17,9 @@ export default React.memo(() => {
 
   const doSearch = async () => {
     const { goods_id } = querystring(location.search);
-    if (!goods_id) return;
+    if (!goods_id) {
+      return;
+    }
     setLoading(true);
     const [err, result] = await to(getGoodsDetail({ goods_id }));
 
@@ -64,10 +66,12 @@ export default React.memo(() => {
         onClose={() => setImageViewerVisible(false)}
       />
       <main></main>
-      <footer className={styles['settlement-container']}>
-        <Button onClick={() => setPopupVisible(true)}>收藏</Button>
-        <Button onClick={() => setPopupVisible(true)}>立即购买</Button>
-      </footer>
+      {!!detail?.goods_id && (
+        <footer className={styles['settlement-container']}>
+          <Button onClick={() => setPopupVisible(true)}>收藏</Button>
+          <Button onClick={() => setPopupVisible(true)}>立即购买</Button>
+        </footer>
+      )}
       <Popup
         visible={popupVisible}
         onMaskClick={() => setPopupVisible(false)}

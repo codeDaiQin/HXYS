@@ -1,6 +1,7 @@
 package user
 
 import (
+	"HXYS/libs"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -14,19 +15,12 @@ type session struct {
 	Errmsg     string `json:"errmsg"`      // 错误信息
 }
 
-// GetOpenID 获取openid
-func GetOpenID(appId, appSecret, code string) (string, error) {
-	seesion, err := codeToSession(appId, appSecret, code)
-
-	if err != nil {
-		return "", fmt.Errorf("error: %s", err)
-	}
-
-	return seesion.Openid, nil
+type User struct {
+	UserId string `json:"user_id"`
 }
 
-// codeToSession 获取session
-func codeToSession(appId, appSecret, code string) (*session, error) {
+// CodeToSession 获取session
+func CodeToSession(appId, appSecret, code string) (*session, error) {
 	//生成client
 	client := &http.Client{}
 
@@ -60,11 +54,13 @@ func codeToSession(appId, appSecret, code string) (*session, error) {
 }
 
 // GetUserInfo 获取用户信息
-func GetUserInfo(openid string) error {
-	return nil
+func GetUserInfo(openid string) (userinfo *User, err error) {
+	err = libs.Db.Where("user_id = ?", openid).First(&userinfo).Error
+	return
 }
 
 // AddUser 注册用户
-func AddUser(openid string) error {
-	return nil
+func AddUser(openid string) (err error) {
+	err = libs.Db.Create(&User{UserId: openid}).Error
+	return
 }

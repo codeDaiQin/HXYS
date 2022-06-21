@@ -75,8 +75,6 @@ export default memo(() => {
       // navigate('/login');  // 重新登陆
       return;
     }
-    // 存储
-    localSet('openId', user.userId);
 
     if (!user) {
       Toast.show({
@@ -85,6 +83,8 @@ export default memo(() => {
       // navigate('/login');
       return;
     }
+    // 存储
+    localSet('openId', user.userId);
   };
 
   useEffect(() => {

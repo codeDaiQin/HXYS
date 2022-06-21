@@ -73,7 +73,7 @@ export default React.memo(() => {
           <main ref={containerRef}>
             {list.map((item) => (
               <div
-                onClick={() => navigate(`/detail?goods_id=${item.goods_id}`)}
+                onClick={() => navigate(`/goods?goods_id=${item.goods_id}`)}
                 key={item.goods_id}
                 className={styles['list-item']}
               >

@@ -1,4 +1,4 @@
-import { AddressType } from '.';
+import { AddressType } from './address';
 
 // 用户基础信息
 export type UserBaseInfo = {

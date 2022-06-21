@@ -45,7 +45,7 @@ export default [
     // 我的
     path: '/address',
     title: '地址',
-    Component: lazy(() => import('@/pages/address/detail'))
+    Component: lazy(() => import('@/pages/address'))
   },
   {
     // 关于作者
@@ -55,9 +55,9 @@ export default [
   },
   {
     // 详情
-    path: '/detail',
+    path: '/goods',
     title: '详情',
-    Component: lazy(() => import('@/pages/detail'))
+    Component: lazy(() => import('@/pages/goods'))
   },
   {
     // 登陆

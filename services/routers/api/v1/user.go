@@ -3,10 +3,10 @@ package v1
 import (
 	"HXYS/models/user"
 	"HXYS/pkg/e"
-
 	"github.com/gin-gonic/gin"
 )
 
+// WechatLogin 微信登录
 func WechatLogin(c *gin.Context) {
 	code := c.Query("code")
 	appId := c.Query("appId")
@@ -20,21 +20,48 @@ func WechatLogin(c *gin.Context) {
 		return
 	}
 
-	openid, err := user.GetOpenID(appId, appSecret, code)
+	session, err := user.CodeToSession(appId, appSecret, code)
 	// 获取openid失败
-	if err != nil || openid == "" {
-		// 未找到直接注册
-		// user.AddUser(openid, "")
+	if err != nil || session.Openid == "" {
 		c.JSON(400, gin.H{
-			"code": e.ERROR_NOT_EXIST_USER,
-			"msg":  e.GetMsg(e.ERROR_NOT_EXIST_USER),
+			"code": session.Errcode,
+			"msg":  session.Errmsg,
 		})
 		return
 	}
 
+	// 设置cookie
+	c.SetCookie("session_id", session.Openid, 3600, "/", "localhost", false, false)
+
 	c.JSON(200, gin.H{
-		"data": openid,
+		"data": session.Openid,
 		"code": e.SUCCESS,
 		"msg":  e.GetMsg(e.SUCCESS),
 	})
+
+}
+
+// GetUserInfo 获取用户信息
+func GetUserInfo(c *gin.Context) {
+	userId := c.Query("user_id")
+
+	// userId 长度固定为28
+	if len(userId) != 28 {
+		c.JSON(400, gin.H{
+			"code": e.INVALID_PARAMS,
+			"msg":  e.GetMsg(e.INVALID_PARAMS),
+		})
+		return
+	}
+
+	userInfo, err := user.GetUserInfo(userId)
+
+	// 如果用户不存在，则新建用户
+	if err != nil {
+		c.JSON(200, gin.H{
+			"data": userInfo,
+			"code": e.SUCCESS,
+			"msg":  e.GetMsg(e.SUCCESS),
+		})
+	}
 }
