@@ -7,9 +7,7 @@ import {
 
 // addAddress 新增地址
 export const addAddress = async (data: AddressFormType): Promise<AddressType> =>
-  request.post('/api/v1/address', {
-    data
-  });
+  request.post('/api/v1/address/add', data);
 
 // updateAddress 更改地址
 export const updateAddress = async (data: AddressType): Promise<any> =>
@@ -19,4 +17,10 @@ export const updateAddress = async (data: AddressType): Promise<any> =>
 
 // getAddressList 获取地址列表
 export const getAddressList = async (): Promise<AddressResponse> =>
-  request.get('/api/v1/address');
+  request.get('/api/v1/address/list');
+
+// deleteAddress 删除地址
+export const deleteAddress = async (data: AddressType): Promise<any> =>
+  request.delete('/api/v1/address', {
+    data
+  });

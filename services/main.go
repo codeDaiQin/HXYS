@@ -1,12 +1,11 @@
 package main
 
 import (
+	"HXYS/conf"
 	"HXYS/pkg/setting"
 	"HXYS/routers"
 	"fmt"
 	"net/http"
-
-	"HXYS/conf"
 )
 
 func main() {

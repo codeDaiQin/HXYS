@@ -40,6 +40,18 @@ func InitRouter() *gin.Engine {
 		user.GET("/info", v1.GetUserInfo)
 	}
 
+	address := r.Group("/api/v1/address")
+	{
+		// 获取地址列表
+		address.GET("/list", v1.GetAddressList)
+		// 新增地址
+		address.POST("/add", v1.AddAddress)
+		// 删除地址
+		address.DELETE("/:id", v1.DeleteAddress)
+		// 修改地址
+		address.PUT("/:id", v1.EditAddress)
+	}
+
 	// https://eddycjy.com/posts/go/gin/2018-02-12-api-02/
 	return r
 }
@@ -48,7 +60,13 @@ func Cors() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Header("Access-Control-Allow-Origin", "*")
 		c.Header("Access-Control-Allow-Headers", "*")
-		c.Header("Access-Control-Allow-Methods", "*")
+		c.Header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS")
 		c.Header("Access-control-allow-credentials", "true")
+
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(200)
+		}
+		c.Next()
+
 	}
 }
