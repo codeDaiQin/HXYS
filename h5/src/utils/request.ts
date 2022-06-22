@@ -5,14 +5,14 @@ const request = axios.create({
   timeout: 1000
 });
 
-// request.interceptors.request.use(
-//   (config) => {
-//     return config;
-//   },
-//   (err) => {
-//     return Promise.reject(err);
-//   }
-// );
+request.interceptors.request.use(
+  (config) => {
+    return config;
+  },
+  (err) => {
+    return Promise.reject(err);
+  }
+);
 
 request.interceptors.response.use((response) => {
   const { data } = response;

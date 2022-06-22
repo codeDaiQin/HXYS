@@ -7,7 +7,8 @@ import {
   Input,
   Switch,
   TextArea,
-  Empty
+  Empty,
+  Toast
 } from 'antd-mobile';
 import to from 'await-to-js';
 import { addAddress, getAddressList, updateAddress } from '@/services/address';
@@ -47,12 +48,19 @@ export default React.memo(() => {
       address_id ? updateAddress({ address_id, ...values }) : addAddress(values)
     );
     if (err) {
-      console.error(err);
+      Toast.show({
+        icon: 'fail',
+        content: '添加失败, 请重试'
+      });
       return;
     }
 
-    fetchData();
-    console.log(result);
+    fetchData(); // 获取新列表
+    setPopupVisible(false); // 关闭弹窗
+    Toast.show({
+      icon: 'success',
+      content: '添加成功'
+    });
   };
 
   useEffect(() => {
@@ -76,7 +84,9 @@ export default React.memo(() => {
                 key={item.address_id}
                 onClick={() => handleOpen(index)}
               >
-                账单
+                {item.consignee}
+                {item.phone}
+                {item.detailed}
               </List.Item>
             ))
           ) : (
@@ -123,9 +133,15 @@ export default React.memo(() => {
             <Form.Item
               name="phone"
               label="手机号"
-              rules={[{ required: true, message: '手机号不能为空' }]}
+              rules={[
+                { required: true, message: '手机号不能为空' },
+                {
+                  pattern: /^1[3456789]\d{9}$/,
+                  message: '手机号格式不正确'
+                }
+              ]}
             >
-              <Input onChange={console.log} placeholder="手机号" />
+              <Input placeholder="手机号" />
             </Form.Item>
             <Form.Item
               layout="horizontal"

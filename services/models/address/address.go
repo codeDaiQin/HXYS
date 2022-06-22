@@ -5,19 +5,15 @@ import (
 )
 
 type Address struct {
-	AddressId string `gorm:"primary_key" json:"address_id"`
+	AddressId int    `gorm:"primary_key" json:"address_id"`
 	Detailed  string `json:"detailed"`  // 详细地址
 	Consignee string `json:"consignee"` // 收货人
 	Phone     string `json:"phone"`     // 手机号``
 	// IsDefault bool   `json:"is_default"` // 是否默认地址
 }
 
-type Result struct {
-}
-
 // GetAddressList	获取地址列表
 func GetAddressList() (addressList []Address, err error) {
-	// 查询Address表
 	err = libs.Db.Find(&addressList).Error
 	return
 }

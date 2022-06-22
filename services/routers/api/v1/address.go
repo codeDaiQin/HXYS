@@ -5,6 +5,7 @@ import (
 	"HXYS/pkg/e"
 	"net/http"
 
+	"github.com/astaxie/beego/validation"
 	"github.com/gin-gonic/gin"
 )
 
@@ -47,11 +48,22 @@ func AddAddress(c *gin.Context) {
 	detailed := requestData.Detailed
 	phone := requestData.Phone
 
-	// 校验参数
-	if detailed == "" || consignee == "" || phone == "" {
+	valid := validation.Validation{}
+	valid.Required(detailed, "detailed").Message("地址不能为空")
+	valid.MaxSize(detailed, 100, "detailed").Message("地址最长为100字符")
+	valid.Required(consignee, "consignee").Message("收货人不能为空")
+	valid.MaxSize(consignee, 64, "consignee").Message("创建人最长为100字符")
+	valid.Required(phone, "phone").Message("手机号不能为空")
+	valid.MaxSize(phone, 11, "phone").Message("手机号长度为11字符")
+	valid.MinSize(phone, 11, "phone").Message("手机号长度为11字符")
+
+	code := e.SUCCESS
+
+	if valid.HasErrors() {
+		code = e.INVALID_PARAMS
 		c.JSON(400, gin.H{
-			"code": e.INVALID_PARAMS,
-			"msg":  e.GetMsg(e.INVALID_PARAMS),
+			"code": code,
+			"msg":  e.GetMsg(code),
 		})
 		return
 	}
