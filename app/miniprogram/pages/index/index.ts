@@ -12,7 +12,7 @@ Page({
         console.log(err);
       },
     });
-    const { code, nickName, avatarUrl } = options;
+    const { code = "", nickName = "", avatarUrl = "" } = options;
     this.setData({
       url: `http://localhost:3000?code=${code}&nickName=${nickName}&avatarUrl=${avatarUrl}`,
     });

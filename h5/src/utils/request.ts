@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { localGet } from './localstorage';
 
 const request = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
@@ -7,6 +8,10 @@ const request = axios.create({
 
 request.interceptors.request.use(
   (config) => {
+    config.headers = {
+      Authorization: localGet('token'),
+      ...config.headers
+    };
     return config;
   },
   (err) => {
@@ -15,9 +20,15 @@ request.interceptors.request.use(
 );
 
 request.interceptors.response.use((response) => {
-  const { data } = response;
+  return new Promise((resolve, reject) => {
+    const { data } = response;
+    const { data: res, msg, code } = data;
 
-  return data.data;
+    if (code >= 200 && code < 300) {
+      resolve(res);
+    }
+    reject(msg);
+  });
 });
 
 export default request;

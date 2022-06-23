@@ -2,6 +2,7 @@ package v1
 
 import (
 	"HXYS/models/user"
+	"HXYS/pkg/auth"
 	"HXYS/pkg/e"
 	"github.com/gin-gonic/gin"
 )
@@ -64,4 +65,35 @@ func GetUserInfo(c *gin.Context) {
 			"msg":  e.GetMsg(e.SUCCESS),
 		})
 	}
+}
+
+// AutoLogin 自动登录
+func AutoLogin(c *gin.Context) {
+	// 获取 token
+	token := c.GetHeader("Authorization")
+	// 获取 userId
+	tokenClaims, err := auth.ParseToken(token)
+	if err != nil {
+		c.JSON(401, gin.H{
+			"code": e.ERROR_AUTH_CHECK_TOKEN_FAIL,
+			"msg":  e.GetMsg(e.ERROR_AUTH_CHECK_TOKEN_FAIL),
+		})
+		return
+	}
+
+	// 获取用户信息
+	userInfo, err := user.GetUserInfo(tokenClaims.UserId)
+	if err != nil {
+		c.JSON(401, gin.H{
+			"code": e.ERROR_AUTH_CHECK_TOKEN_FAIL,
+			"msg":  e.GetMsg(e.ERROR_AUTH_CHECK_TOKEN_FAIL),
+		})
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"data": userInfo,
+		"code": e.SUCCESS,
+		"msg":  e.GetMsg(e.SUCCESS),
+	})
 }

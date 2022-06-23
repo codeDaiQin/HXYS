@@ -28,6 +28,7 @@ export const localSet = (
   value: string,
   expires = 60 * 1000 * 24 * 7 // 默认7天过期
 ) => {
+  if (!value) return;
   localStorage.setItem(
     name,
     JSON.stringify({ time: Date.now(), expires, value })

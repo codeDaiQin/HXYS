@@ -15,5 +15,5 @@ const (
 	ERROR_AUTH_CHECK_TOKEN_FAIL    = 20001 // token鉴权失败
 	ERROR_AUTH_CHECK_TOKEN_TIMEOUT = 20002 // token鉴权超时
 	ERROR_AUTH_TOKEN               = 20003 // token生成失败
-	ERROR_AUTH                     = 20004 // token错误
+	ERROR_NOT_EXIST_AUTH           = 20004 // token不存在
 )

@@ -54,8 +54,8 @@ func CodeToSession(appId, appSecret, code string) (*session, error) {
 }
 
 // GetUserInfo 获取用户信息
-func GetUserInfo(openid string) (userinfo *User, err error) {
-	err = libs.Db.Where("user_id = ?", openid).First(&userinfo).Error
+func GetUserInfo(userId string) (userinfo *User, err error) {
+	err = libs.Db.Where("user_id = ?", userId).First(&userinfo).Error
 	return
 }
 
@@ -63,4 +63,14 @@ func GetUserInfo(openid string) (userinfo *User, err error) {
 func AddUser(openid string) (err error) {
 	err = libs.Db.Create(&User{UserId: openid}).Error
 	return
+}
+
+// CheckUser 检查用户是否存在
+func CheckUser(userId string) bool {
+	var user User
+	err := libs.Db.Select("user_id").Where(User{UserId: userId}).First(&user).Error
+	if err != nil {
+		return false
+	}
+	return true
 }
