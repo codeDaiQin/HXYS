@@ -35,13 +35,14 @@ func AddAddress(detailed, consignee, phone string) (err error) {
 }
 
 // DeleteAddress 删除地址
-func DeleteAddress(address_id string) (err error) {
-	err = libs.Db.Where("address_id = ?", address_id).Delete(&Address{}).Error
+func DeleteAddress(addressId string) (err error) {
+	//	删除地址
+	err = libs.Db.Where("address_id = ?", addressId).Delete(&Address{}).Error
 	return
 }
 
 // EditAddress 更新地址
-func EditAddress(address_id, detailed, consignee, phone string) (err error) {
-	err = libs.Db.Model(&Address{}).Where("address_id = ?", address_id).Update("detailed", detailed).Update("consignee", consignee).Update("phone", phone).Error
+func EditAddress(addressId string, detailed, consignee, phone string) (err error) {
+	err = libs.Db.Model(&Address{}).Where("address_id = ?", addressId).Update("detailed", detailed).Update("consignee", consignee).Update("phone", phone).Error
 	return
 }

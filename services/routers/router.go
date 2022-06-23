@@ -27,9 +27,9 @@ func InitRouter() *gin.Engine {
 		//	新增商品
 		goods.POST("/add", v1.AddGoods)
 		//	修改商品
-		goods.PUT("/:id", v1.EditGoods)
+		goods.PUT("/:goods_id", v1.EditGoods)
 		//	删除商品
-		goods.DELETE("/:id", v1.DeleteGoods)
+		goods.DELETE("/:goods_id", v1.DeleteGoods)
 	}
 
 	user := r.Group("/api/v1/user")
@@ -47,9 +47,9 @@ func InitRouter() *gin.Engine {
 		// 新增地址
 		address.POST("/add", v1.AddAddress)
 		// 删除地址
-		address.DELETE("/:id", v1.DeleteAddress)
+		address.DELETE("/:address_id", v1.DeleteAddress)
 		// 修改地址
-		address.PUT("/:id", v1.EditAddress)
+		address.PUT("/:address_id", v1.EditAddress)
 	}
 
 	// https://eddycjy.com/posts/go/gin/2018-02-12-api-02/
