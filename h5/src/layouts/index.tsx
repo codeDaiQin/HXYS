@@ -106,7 +106,6 @@ export default memo(() => {
       notice.error('获取token出错了');
       return;
     }
-    console.log(token);
 
     // 存储
     localSet('token', token);
@@ -128,7 +127,7 @@ export default memo(() => {
     init();
     // localSet(
     //   'token',
-    //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoib3FwQUU0LTkzZ3BMN3dhWVpEcF9Pd1cxaGw4USIsIk1hcENsYWltcyI6eyJ1c2VyX2lkIjoib3FwQUU0LTkzZ3BMN3dhWVpEcF9Pd1cxaGw4USJ9fQ.xCpkDlPaDY7ItzGrpieQJPNPtsKBxZeOYgZmPmU4sto'
+    //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoib3FwQUU0LTkzZ3BMN3dhWVpEcF9Pd1cxaGw4USIsIkV4cGlyZXMiOiIyMDIyLTA2LTI3VDExOjQ0OjU5LjA0MjUxOSswODowMCIsIk1hcENsYWltcyI6eyJ1c2VyX2lkIjoib3FwQUU0LTkzZ3BMN3dhWVpEcF9Pd1cxaGw4USJ9fQ.q0Z262M0wd5xIH0e1Ca-PXHuKWuP-ieIaFfvOo90WnY'
     // );
   }, []);
 

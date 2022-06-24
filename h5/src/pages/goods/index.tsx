@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Swiper, ImageViewer, Button, Popup, Avatar, Card } from 'antd-mobile';
+import {
+  Swiper,
+  ImageViewer,
+  Button,
+  Popup,
+  Avatar,
+  Card,
+  Picker
+} from 'antd-mobile';
 import to from 'await-to-js';
 import { CloseOutline } from 'antd-mobile-icons';
 import DynamicForm from '@/components/DynamicForm';

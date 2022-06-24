@@ -13,5 +13,5 @@ export const getOrderList = async (
 
 // 获取订单详情
 export const getOrderDetail = async (
-  params: OrderDetailRequest
-): Promise<OrderDetailResponse> => request.get('/order', { params });
+  orderId: OrderDetailRequest
+): Promise<OrderDetailResponse> => request.get(`/order/${orderId}`);

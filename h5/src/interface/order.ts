@@ -1,4 +1,5 @@
-import { PaginationType, ListResponse, AddressType } from '.';
+import { PaginationType, ListResponse } from '.';
+import { AddressType } from './address';
 import { GoodsDetailInfo } from './goods';
 
 export enum OrderTypeEnum {
