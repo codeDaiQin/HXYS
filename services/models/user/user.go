@@ -16,7 +16,8 @@ type session struct {
 }
 
 type User struct {
-	UserId string `json:"user_id"`
+	UserId           string `json:"user_id"`
+	DefaultAddressId int    `json:"default_address_id"` // 默认地址id
 }
 
 // CodeToSession 获取session

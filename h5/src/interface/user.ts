@@ -18,5 +18,8 @@ export type WechatLoginRequest = {
   appId: string;
 };
 
+// 登陆响应
+export type LoginResponse = { token: string };
+
 // 用户详情响应
 export type UserDetailResponse = UserDetailInfo;

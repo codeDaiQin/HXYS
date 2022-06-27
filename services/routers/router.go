@@ -41,8 +41,6 @@ func InitRouter() *gin.Engine {
 		user.GET("/wechatLogin", v1.WechatLogin)
 		//	获取用户信息
 		user.GET("/info", v1.GetUserInfo)
-		//	autoLogin
-		user.GET("/autoLogin", v1.AutoLogin)
 	}
 
 	address := r.Group("/api/v1/address")

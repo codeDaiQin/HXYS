@@ -4,11 +4,11 @@ type localStorageType = {
   value?: any;
 };
 
-export const localDel = (name: string) => {
+const del = (name: string) => {
   localStorage.removeItem(name);
 };
 
-export const localGet = (name: string) => {
+const get = (name: string) => {
   let data: localStorageType = {};
   try {
     data = JSON.parse(localStorage.getItem(name) ?? '{}');
@@ -17,13 +17,13 @@ export const localGet = (name: string) => {
   }
   const { time = Infinity, value, expires = 0 } = data;
   if (Date.now() > time + expires) {
-    localDel(name); // 清除
+    del(name); // 清除
     return null;
   }
   return value;
 };
 
-export const localSet = (
+const set = (
   name: string,
   value: string,
   expires = 60 * 1000 * 24 * 7 // 默认7天过期
@@ -33,4 +33,10 @@ export const localSet = (
     name,
     JSON.stringify({ time: Date.now(), expires, value })
   );
+};
+
+export default {
+  del,
+  set,
+  get
 };

@@ -2,6 +2,8 @@ package v1
 
 import (
 	"HXYS/models/address"
+	"HXYS/models/user"
+	"HXYS/pkg/auth"
 	"HXYS/pkg/e"
 	"net/http"
 
@@ -11,6 +13,29 @@ import (
 
 // GetAddressList 获取地址列表
 func GetAddressList(c *gin.Context) {
+	// 获取 token
+	token := c.GetHeader("Authorization")
+	// 获取 userId
+	tokenClaims, err := auth.ParseToken(token)
+	if err != nil {
+		c.JSON(401, gin.H{
+			"code": e.ERROR_AUTH_CHECK_TOKEN_FAIL,
+			"msg":  e.GetMsg(e.ERROR_AUTH_CHECK_TOKEN_FAIL),
+		})
+		return
+	}
+
+	// 获取用户信息
+	userInfo, err := user.GetUserInfo(tokenClaims.UserId)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"code": e.ERROR_NOT_EXIST_USER,
+			"msg":  e.GetMsg(e.ERROR_NOT_EXIST_USER),
+		})
+		return
+	}
+
+	// 获取地址列表
 	list, err := address.GetAddressList()
 	if err != nil {
 		c.JSON(400, gin.H{
@@ -18,6 +43,12 @@ func GetAddressList(c *gin.Context) {
 			"msg":  e.GetMsg(e.ERROR),
 		})
 		return
+	}
+	for _, v := range list {
+		// 判断是否是当前用户的默认地址
+		if userInfo.DefaultAddressId == v.AddressId {
+			v.IsDefault = true
+		}
 	}
 
 	data := make(map[string]interface{})

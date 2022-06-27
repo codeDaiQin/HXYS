@@ -6,7 +6,7 @@ export type AddressType = {
   detailed: string; // 详细地址
   consignee: string; // 收货人
   phone: number;
-  isDefault?: boolean;
+  is_default?: boolean;
 };
 
 // 地址表单类型

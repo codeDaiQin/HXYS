@@ -1,18 +1,16 @@
 import request from '@/utils/request';
-import { UserDetailResponse, WechatLoginRequest } from '@/interface/user';
+import {
+  LoginResponse,
+  UserDetailResponse,
+  WechatLoginRequest
+} from '@/interface/user';
 
-// autoLogin 获取用户详情
-export const autoLogin = async (): Promise<UserDetailResponse> =>
-  request.get('/api/v1/user/autoLogin');
-
-// wechatLogin 微信code码登陆
+// wechatLogin 微信code码登陆 登陆成功返回token
 export const wechatLogin = async (
   params: WechatLoginRequest
-): Promise<UserDetailResponse> =>
+): Promise<LoginResponse> =>
   request.get('/api/v1/user/wechatLogin', { params });
 
-// 获取token
-export const getToken = async (userId: string): Promise<string> =>
-  request.get('/auth', {
-    params: userId
-  });
+// 获取用户信息
+export const getUserDetail = async (): Promise<UserDetailResponse> =>
+  request.get('/api/v1/user/info');

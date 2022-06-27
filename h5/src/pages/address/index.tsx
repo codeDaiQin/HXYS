@@ -21,8 +21,11 @@ import {
 import { AddressFormType, AddressType } from '@/interface/address';
 import notice from '@/utils/notice';
 import styles from './index.module.scss';
+import { useAppSelector } from '@/models/store';
+import { selectUser } from '@/models/user';
 
 export default React.memo(() => {
+  const userState = useAppSelector(selectUser);
   const [form] = Form.useForm();
   const [popupVisible, setPopupVisible] = useState(false);
   const [current, setCurrent] = useState(-1);
@@ -84,7 +87,7 @@ export default React.memo(() => {
   useEffect(() => {
     // 数据同步到弹窗内
     addressList[current]
-      ? form.setFieldsValue({ ...addressList[current], isDefault: false })
+      ? form.setFieldsValue({ ...addressList[current] })
       : form.resetFields();
   }, [current, addressList]);
 

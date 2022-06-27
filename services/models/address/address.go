@@ -9,7 +9,8 @@ type Address struct {
 	Detailed  string `json:"detailed"`  // 详细地址
 	Consignee string `json:"consignee"` // 收货人
 	Phone     string `json:"phone"`     // 手机号``
-	// IsDefault bool   `json:"is_default"` // 是否默认地址
+
+	IsDefault bool `json:"is_default"` // 是否默认地址
 }
 
 // GetAddressList	获取地址列表

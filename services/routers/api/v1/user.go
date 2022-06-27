@@ -32,7 +32,7 @@ func WechatLogin(c *gin.Context) {
 	}
 
 	// 设置cookie
-	c.SetCookie("session_id", session.Openid, 3600, "/", "localhost", false, false)
+	//c.SetCookie("session_id", session.Openid, 3600, "/", "localhost", false, false)
 
 	c.JSON(200, gin.H{
 		"data": session.Openid,
@@ -44,31 +44,6 @@ func WechatLogin(c *gin.Context) {
 
 // GetUserInfo 获取用户信息
 func GetUserInfo(c *gin.Context) {
-	userId := c.Query("user_id")
-
-	// userId 长度固定为28
-	if len(userId) != 28 {
-		c.JSON(400, gin.H{
-			"code": e.INVALID_PARAMS,
-			"msg":  e.GetMsg(e.INVALID_PARAMS),
-		})
-		return
-	}
-
-	userInfo, err := user.GetUserInfo(userId)
-
-	// 如果用户不存在，则新建用户
-	if err != nil {
-		c.JSON(200, gin.H{
-			"data": userInfo,
-			"code": e.SUCCESS,
-			"msg":  e.GetMsg(e.SUCCESS),
-		})
-	}
-}
-
-// AutoLogin 自动登录
-func AutoLogin(c *gin.Context) {
 	// 获取 token
 	token := c.GetHeader("Authorization")
 	// 获取 userId

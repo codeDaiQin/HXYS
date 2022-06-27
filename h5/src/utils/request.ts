@@ -1,15 +1,16 @@
 import axios from 'axios';
-import { localGet } from './localstorage';
+import { TOKEN_KEY } from '@/constants/local-storage-key';
+import local from './localstorage';
 
 const request = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
-  timeout: 1000
+  timeout: 10000
 });
 
 request.interceptors.request.use(
   (config) => {
     config.headers = {
-      Authorization: localGet('token'),
+      Authorization: local.get(TOKEN_KEY),
       ...config.headers
     };
     return config;

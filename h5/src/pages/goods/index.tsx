@@ -1,20 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Swiper,
-  ImageViewer,
-  Button,
-  Popup,
-  Avatar,
-  Card,
-  Picker
-} from 'antd-mobile';
+import { Swiper, ImageViewer, Button, Popup, Avatar, Card } from 'antd-mobile';
 import to from 'await-to-js';
 import { CloseOutline } from 'antd-mobile-icons';
 import DynamicForm from '@/components/DynamicForm';
+import Loading from '@/components/Loading';
 import { querystring } from '@/utils';
 import { GoodsDetailInfo } from '@/interface/goods';
 import { getGoodsDetail } from '@/services/goods';
 import styles from './index.module.scss';
+import notice from '@/utils/notice';
 
 export default React.memo(() => {
   const [currentImg, setCurrentImg] = useState(0);
@@ -26,13 +20,15 @@ export default React.memo(() => {
   const doSearch = async () => {
     const { goods_id } = querystring(location.search);
     if (!goods_id) {
+      notice.error('没有id 跳转到列表页面');
       return;
     }
     setLoading(true);
     const [err, result] = await to(getGoodsDetail({ goods_id }));
 
     if (err || !result) {
-      console.log(err);
+      notice.error('获取详情失败');
+      setLoading(false);
       return;
     }
 
@@ -50,22 +46,24 @@ export default React.memo(() => {
   }, []);
 
   return (
-    <div>
-      <Swiper className={styles['swiper-container']}>
-        {detail?.covers.map((item, index) => (
-          <Swiper.Item key={index}>
-            <div
-              className={styles['swiper-item']}
-              onClick={() => {
-                setCurrentImg(index);
-                setImageViewerVisible(true);
-              }}
-            >
-              <img src={item} alt="" />
-            </div>
-          </Swiper.Item>
-        ))}
-      </Swiper>
+    <Loading loading={loading}>
+      {!!detail?.covers?.length && (
+        <Swiper className={styles['swiper-container']}>
+          {detail?.covers.map((item, index) => (
+            <Swiper.Item key={index}>
+              <div
+                className={styles['swiper-item']}
+                onClick={() => {
+                  setCurrentImg(index);
+                  setImageViewerVisible(true);
+                }}
+              >
+                <img src={item} alt="" />
+              </div>
+            </Swiper.Item>
+          ))}
+        </Swiper>
+      )}
       {/* 图片预览 */}
       <ImageViewer.Multi
         images={detail?.covers}
@@ -98,12 +96,7 @@ export default React.memo(() => {
             选择地址
           </Card>
 
-          <Card
-            style={{ marginTop: 8 }}
-            onClick={() => {
-              console.log('go to address');
-            }}
-          >
+          <Card style={{ marginTop: 8 }}>
             <DynamicForm specs={[]} />
           </Card>
           <CloseOutline
@@ -117,6 +110,6 @@ export default React.memo(() => {
           </footer>
         </div>
       </Popup>
-    </div>
+    </Loading>
   );
 });

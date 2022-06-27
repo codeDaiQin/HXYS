@@ -1,23 +1,25 @@
 import React, { useState, memo, Suspense, useEffect } from 'react';
-import { TabBar, SpinLoading } from 'antd-mobile';
+import { TabBar } from 'antd-mobile';
 import { Route, Routes, useNavigate } from 'react-router-dom';
-import to from 'await-to-js';
 import wx from 'weixin-js-sdk';
-import { wechatLogin, getToken, autoLogin } from '@/services/user';
+import Loading from '@/components/Loading';
 import routers, { RouterType } from '@/config/router';
 import menu from '@/config/menu';
 import Error from '@/pages/error';
 import { querystring } from '@/utils';
-import notice from '@/utils/notice';
-import { localGet, localSet } from '@/utils/localstorage';
+import { useAppDispatch, useAppSelector } from '@/models/store';
+import { getUserInfo, login, selectUser } from '@/models/user';
+import local from '@/utils/localstorage';
+import { TOKEN_KEY } from '@/constants/local-storage-key';
 import styles from './index.module.scss';
 
-const Bottom = memo(() => {
+// 底部菜单
+const Menu = memo(() => {
   // 当前页面url
   const { pathname, search } = location;
   const navigate = useNavigate();
   const [active, setActive] = useState(pathname + search); // todo
-  const [showMenu, setShowMenu] = useState(false);
+  const [showMenu, setShowMenu] = useState(false); // 展示底部菜单
 
   useEffect(() => {
     setActive(pathname + search);
@@ -28,7 +30,9 @@ const Bottom = memo(() => {
     navigate(active);
   }, [active]);
 
-  return showMenu ? (
+  if (!showMenu) return null;
+
+  return (
     <footer className={styles.footer}>
       {pathname + search}
       <TabBar
@@ -41,14 +45,8 @@ const Bottom = memo(() => {
         ))}
       </TabBar>
     </footer>
-  ) : null;
+  );
 });
-
-const PageLoading = memo(() => (
-  <div className={styles.loading}>
-    <SpinLoading />
-  </div>
-));
 
 const renderRoutes = (routes: RouterType[]): React.ReactNode[] =>
   routes.map(({ Component, path }) => (
@@ -57,91 +55,42 @@ const renderRoutes = (routes: RouterType[]): React.ReactNode[] =>
 
 export default memo(() => {
   const navigate = useNavigate();
-
-  const autoLoginByToken = async () => {
-    const token = localGet('token');
-    if (!token || !Object.keys(token)?.length) return;
-
-    const [err, user] = await to(autoLogin());
-
-    console.log(err);
-
-    if (err) {
-      notice.error('autoLogin登陆失败');
-      // navigate('/login');
-      return;
-    }
-
-    console.log(user);
-    notice.success('autoLogin 成功');
-  };
-
-  const wxLogin = async () => {
-    const { code, nickName, avatarUrl } = querystring(location.search);
-
-    if (!code) {
-      wx.miniProgram.redirectTo({ url: '/pages/login/login' }); // 跳转到登录页
-      return;
-    }
-
-    const appSecret = import.meta.env.VITE_APP_SECRET;
-    const appId = import.meta.env.VITE_APP_ID;
-    const [userErr, user] = await to(wechatLogin({ code, appSecret, appId }));
-
-    if (userErr) {
-      notice.error('登陆出错了');
-      // navigate('/login');  // 重新登陆
-      return;
-    }
-
-    if (!user) {
-      notice.error('登陆状态已过期请重新登陆');
-      // navigate('/login');
-      return;
-    }
-
-    // 获取token
-    const [tokenErr, token] = await to(getToken(user.userId));
-    if (tokenErr) {
-      notice.error('获取token出错了');
-      return;
-    }
-
-    // 存储
-    localSet('token', token);
-    localSet('nickName', nickName);
-    localSet('avatarUrl', avatarUrl);
-  };
+  const dispatch = useAppDispatch();
 
   const init = async () => {
-    const token = localGet('token');
+    const token = local.get(TOKEN_KEY);
 
-    if (token) {
-      autoLoginByToken();
+    if (!token) {
+      const { code, nickName, avatarUrl } = querystring(location.search);
+      if (!code) {
+        wx.miniProgram.redirectTo({ url: '/pages/login/login' }); // 跳转到登录页
+        return;
+      }
+      await dispatch(login(code));
       return;
     }
-    wxLogin();
+    await dispatch(getUserInfo());
   };
 
   useEffect(() => {
-    init();
-    // localSet(
-    //   'token',
-    //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoib3FwQUU0LTkzZ3BMN3dhWVpEcF9Pd1cxaGw4USIsIkV4cGlyZXMiOiIyMDIyLTA2LTI3VDExOjQ0OjU5LjA0MjUxOSswODowMCIsIk1hcENsYWltcyI6eyJ1c2VyX2lkIjoib3FwQUU0LTkzZ3BMN3dhWVpEcF9Pd1cxaGw4USJ9fQ.q0Z262M0wd5xIH0e1Ca-PXHuKWuP-ieIaFfvOo90WnY'
+    // local.set(
+    //   TOKEN_KEY,
+    //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoib3FwQUU0LTkzZ3BMN3dhWVpEcF9Pd1cxaGw4USIsIkV4cGlyZXMiOiIyMDIyLTA3LTI3VDE3OjA4OjUxLjA4Nzk5MSswODowMCIsIk1hcENsYWltcyI6eyJ1c2VyX2lkIjoib3FwQUU0LTkzZ3BMN3dhWVpEcF9Pd1cxaGw4USJ9fQ.RdKoYcPRlqWrlC3-HiuhELL_p4Aveus0BcRRfdXAfXE'
     // );
+    init();
   }, []);
 
   return (
     <div className={styles.layout}>
       <main className={styles.main}>
-        <Suspense fallback={<PageLoading />}>
+        <Suspense fallback={<Loading loading={true} />}>
           <Routes>
             {renderRoutes(routers)}
             <Route path="*" element={<Error />} />
           </Routes>
         </Suspense>
       </main>
-      <Bottom />
+      <Menu />
     </div>
   );
 });

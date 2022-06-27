@@ -13,8 +13,8 @@ type Claims struct {
 	jwt.MapClaims
 }
 
-// TokenExpireDuration token 过期时间 默认为 3 天
-const TokenExpireDuration = time.Hour * 24 * 3
+// TokenExpireDuration token 过期时间 默认为 30 天
+const TokenExpireDuration = time.Hour * 24 * 30
 
 // jwtSecret jwt 密钥
 var jwtSecret = []byte(setting.JwtSecret)
