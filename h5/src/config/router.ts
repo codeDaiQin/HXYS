@@ -9,6 +9,7 @@ export type RouterType = {
     | React.FC<BrowserRouterProps>
     | (() => React.ReactElement<BrowserRouterProps>); // 组件
   children?: RouterType[]; // 子路由
+  showMenu?: boolean; // 是否展示菜单
 };
 
 export default [
@@ -16,25 +17,29 @@ export default [
     // 首页
     path: '/',
     title: '首页',
-    Component: lazy(() => import('@/pages/home'))
+    Component: lazy(() => import('@/pages/home')),
+    showMenu: true
   },
   {
-    // 下单
-    path: '/buy',
-    title: '下单',
-    Component: lazy(() => import('@/pages/buy'))
+    // 分类
+    path: '/sort',
+    title: '分类',
+    Component: lazy(() => import('@/pages/sort')),
+    showMenu: true
   },
   {
     // 订单
     path: '/order',
     title: '订单',
-    Component: lazy(() => import('@/pages/order'))
+    Component: lazy(() => import('@/pages/order')),
+    showMenu: true
   },
   {
     // 我的
     path: '/me',
     title: '我的',
-    Component: lazy(() => import('@/pages/me'))
+    Component: lazy(() => import('@/pages/me')),
+    showMenu: true
   },
   {
     // 我的
@@ -50,8 +55,14 @@ export default [
   },
   {
     // 详情
-    path: '/detail',
+    path: '/goods',
     title: '详情',
-    Component: lazy(() => import('@/pages/detail'))
+    Component: lazy(() => import('@/pages/goods'))
+  },
+  {
+    // 登陆
+    path: '/login',
+    title: '登陆',
+    Component: lazy(() => import('@/pages/login'))
   }
 ] as RouterType[];

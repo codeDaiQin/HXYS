@@ -19,7 +19,7 @@ export default [
     icon: <AppOutline />
   },
   {
-    path: '/buy',
+    path: '/sort',
     title: '下单',
     icon: <UnorderedListOutline />
   },

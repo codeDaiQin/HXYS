@@ -1,0 +1,17 @@
+.address-container {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  main {
+    flex: 1;
+    overflow-y: auto;
+  }
+  .add-container {
+    box-sizing: border-box;
+    padding: 8px;
+  }
+
+  .list-item {
+    display: flex; 
+  }
+}

@@ -1,25 +1,25 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"HXYS/conf"
+	"HXYS/pkg/setting"
+	"HXYS/routers"
+	"fmt"
+	"net/http"
+)
 
 func main() {
-	r := gin.Default()
-	r.Use(Cors())
+	// 初始化配置
+	conf.Init()
+	router := routers.InitRouter()
 
-	r.GET("/ping", func(c *gin.Context) {
-		code := c.Query("code")
-		c.JSON(200, gin.H{
-			"message": code,
-		})
-	})
-	r.Run()
-}
-
-func Cors() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		c.Header("Access-Control-Allow-Origin", "*")
-		c.Header("Access-Control-Allow-Headers", "*")
-		c.Header("Access-Control-Allow-Methods", "*")
-		c.Header("Access-control-allow-credentials", "true")
+	s := &http.Server{
+		Addr:           fmt.Sprintf(":%d", setting.HTTPPort),
+		Handler:        router,
+		ReadTimeout:    setting.ReadTimeout,
+		WriteTimeout:   setting.WriteTimeout,
+		MaxHeaderBytes: 1 << 20,
 	}
+
+	s.ListenAndServe()
 }

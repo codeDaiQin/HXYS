@@ -1,5 +1,0 @@
-<!--logs.wxml-->
-<view class="container">
-  <text>web-view测试页</text>
-  <web-view src="{{url}}" bindmessage='receivePostMsg' />
-</view>

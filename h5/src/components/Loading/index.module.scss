@@ -1,0 +1,18 @@
+.loading-container {
+  position: relative;
+
+  .loading-blur {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    z-index: 4;
+    background-color: rgba(255, 255, 255, 0.2);
+    user-select: none;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

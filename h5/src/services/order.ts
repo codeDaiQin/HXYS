@@ -1,11 +1,17 @@
-import { OrderListRequest } from '@/interface/order';
+import request from '@/utils/request';
+import {
+  OrderListRequest,
+  OrderListResponse,
+  OrderDetailRequest,
+  OrderDetailResponse
+} from '@/interface/order';
 
 // 获取订单列表
-export const getOrderList = async (params: OrderListRequest) => {
-  console.log(params);
-};
+export const getOrderList = async (
+  params: OrderListRequest
+): Promise<OrderListResponse> => request.get('/order', { params });
 
 // 获取订单详情
-export const getOrderDetails = async (orderId: string) => {
-  console.log(orderId);
-};
+export const getOrderDetail = async (
+  orderId: OrderDetailRequest
+): Promise<OrderDetailResponse> => request.get(`/order/${orderId}`);

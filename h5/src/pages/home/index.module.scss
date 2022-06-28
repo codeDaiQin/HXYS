@@ -1,4 +1,4 @@
-.content {
+.swiper-content {
   height: 300px;
   color: #ffffff;
   display: flex;
@@ -6,4 +6,8 @@
   align-items: center;
   font-size: 48px;
   user-select: none;
+}
+
+.home-container {
+  padding: 12px;
 }

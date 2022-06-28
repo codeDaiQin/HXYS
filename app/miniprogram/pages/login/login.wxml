@@ -1,0 +1,5 @@
+<!-- login.wxml -->
+<view>
+  <button open-type="getUserInfo" bindgetuserinfo="getUserInfo">获取头像昵称button</button>
+  <open-data type="userAvatarUrl">获取头像昵称open-data</open-data>
+</view>
