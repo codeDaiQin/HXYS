@@ -8,7 +8,7 @@ import (
 )
 
 type Claims struct {
-	UserId  string `json:"user_id"`
+	OpenId  string `json:"open_id"`
 	Expires time.Time
 	jwt.MapClaims
 }
@@ -20,16 +20,16 @@ const TokenExpireDuration = time.Hour * 24 * 30
 var jwtSecret = []byte(setting.JwtSecret)
 
 // CreateToken 创建 token
-func CreateToken(userId string) (string, error) {
+func CreateToken(openId string) (string, error) {
 	// token 过期时间
 	expires := time.Now().Add(TokenExpireDuration)
 
 	// 声明 token
 	claims := Claims{
-		userId,
+		openId,
 		expires,
 		jwt.MapClaims{
-			"user_id": userId,
+			"open_id": openId,
 		},
 	}
 

@@ -13,21 +13,23 @@ type Address struct {
 	IsDefault bool `json:"is_default"` // 是否默认地址
 }
 
+const TableName = "HXYS_address"
+
 // GetAddressList	获取地址列表
-func GetAddressList() (addressList []Address, err error) {
-	err = libs.Db.Find(&addressList).Error
+func GetAddressList(maps interface{}) (addressList []Address, err error) {
+	err = libs.Db.Table(TableName).Where(maps).Find(&addressList).Error
 	return
 }
 
 // GetAddressTotal 获取地址总数
-func GetAddressTotal() (count int64) {
-	libs.Db.Model(&Address{}).Count(&count)
+func GetAddressTotal(maps interface{}) (count int64) {
+	libs.Db.Table(TableName).Where(maps).Model(&Address{}).Count(&count)
 	return
 }
 
 // AddAddress 新增地址
 func AddAddress(detailed, consignee, phone string) (err error) {
-	err = libs.Db.Create(&Address{
+	err = libs.Db.Table(TableName).Create(&Address{
 		Detailed:  detailed,
 		Consignee: consignee,
 		Phone:     phone,
@@ -36,14 +38,14 @@ func AddAddress(detailed, consignee, phone string) (err error) {
 }
 
 // DeleteAddress 删除地址
-func DeleteAddress(addressId string) (err error) {
+func DeleteAddress(addressId int) (err error) {
 	//	删除地址
-	err = libs.Db.Where("address_id = ?", addressId).Delete(&Address{}).Error
+	err = libs.Db.Table(TableName).Where("address_id = ?", addressId).Delete(&Address{}).Error
 	return
 }
 
 // EditAddress 更新地址
-func EditAddress(addressId string, detailed, consignee, phone string) (err error) {
-	err = libs.Db.Model(&Address{}).Where("address_id = ?", addressId).Update("detailed", detailed).Update("consignee", consignee).Update("phone", phone).Error
+func EditAddress(addressId int, maps interface{}) (err error) {
+	err = libs.Db.Table(TableName).Where("address_id = ?", addressId).Updates(maps).Error
 	return
 }

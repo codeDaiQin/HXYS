@@ -16,9 +16,13 @@ type session struct {
 }
 
 type User struct {
-	UserId           string `json:"user_id"`
+	Id               int    `gorm:"primary_key;AUTO_INCREMENT" json:"id"`
+	OpenId           string `json:"open_id"`            // 微信openId
 	DefaultAddressId int    `json:"default_address_id"` // 默认地址id
+	Name             string `json:"name"`               // 用户名
 }
+
+const TableName = "HXYS_user"
 
 // CodeToSession 获取session
 func CodeToSession(appId, appSecret, code string) (*session, error) {
@@ -54,24 +58,38 @@ func CodeToSession(appId, appSecret, code string) (*session, error) {
 	return result, nil
 }
 
-// GetUserInfo 获取用户信息
-func GetUserInfo(userId string) (userinfo *User, err error) {
-	err = libs.Db.Where("user_id = ?", userId).First(&userinfo).Error
+// GetUserInfoByIndex 索引获取用户信息
+func GetUserInfoByIndex(userIndex int) (userinfo *User, err error) {
+	// 在user表查询用户信息
+	err = libs.Db.Table(TableName).Where(User{Id: userIndex}).First(&userinfo).Error
+	return userinfo, err
+}
+
+// GetUserInfoByOpenId openId获取用户信息
+func GetUserInfoByOpenId(openid string) (userinfo *User, err error) {
+	// 在user表查询用户信息
+	err = libs.Db.Table(TableName).Where(User{OpenId: openid}).First(&userinfo).Error
 	return
 }
 
 // AddUser 注册用户
 func AddUser(openid string) (err error) {
-	err = libs.Db.Create(&User{UserId: openid}).Error
+	err = libs.Db.Table(TableName).Create(&User{OpenId: openid}).Error
 	return
 }
 
 // CheckUser 检查用户是否存在
-func CheckUser(userId string) bool {
+func CheckUser(openid string) bool {
 	var user User
-	err := libs.Db.Select("user_id").Where(User{UserId: userId}).First(&user).Error
+	err := libs.Db.Table(TableName).Select("user_id").Where(User{OpenId: openid}).First(&user).Error
 	if err != nil {
 		return false
 	}
 	return true
+}
+
+// UpdateUserInfo 更新用户信息
+func UpdateUserInfo(userId int, maps interface{}) (err error) {
+	err = libs.Db.Table(TableName).Where("id = ?", userId).Updates(maps).Error
+	return
 }

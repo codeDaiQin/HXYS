@@ -9,10 +9,13 @@ const request = axios.create({
 
 request.interceptors.request.use(
   (config) => {
-    config.headers = {
-      Authorization: local.get(TOKEN_KEY),
-      ...config.headers
-    };
+    const token = local.get(TOKEN_KEY);
+    if (token) {
+      config.headers = {
+        Authorization: local.get(TOKEN_KEY),
+        ...config.headers
+      };
+    }
     return config;
   },
   (err) => {

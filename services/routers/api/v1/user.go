@@ -7,6 +7,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type User struct {
+	OpenId string `json:"open_id"`
+}
+
 // WechatLogin 微信登录
 func WechatLogin(c *gin.Context) {
 	code := c.Query("code")
@@ -31,15 +35,21 @@ func WechatLogin(c *gin.Context) {
 		return
 	}
 
-	// 设置cookie
-	//c.SetCookie("session_id", session.Openid, 3600, "/", "localhost", false, false)
+	// 生成token
+	token, err := auth.CreateToken(session.Openid)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"code": e.ERROR,
+			"msg":  e.GetMsg(e.ERROR),
+		})
+		return
+	}
 
 	c.JSON(200, gin.H{
-		"data": session.Openid,
+		"data": token,
 		"code": e.SUCCESS,
 		"msg":  e.GetMsg(e.SUCCESS),
 	})
-
 }
 
 // GetUserInfo 获取用户信息
@@ -57,7 +67,15 @@ func GetUserInfo(c *gin.Context) {
 	}
 
 	// 获取用户信息
-	userInfo, err := user.GetUserInfo(tokenClaims.UserId)
+	userInfo, err := user.GetUserInfoByOpenId(tokenClaims.OpenId)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"code": e.ERROR_NOT_EXIST_USER,
+			"msg":  e.GetMsg(e.ERROR_NOT_EXIST_USER),
+		})
+		return
+	}
+
 	if err != nil {
 		c.JSON(401, gin.H{
 			"code": e.ERROR_AUTH_CHECK_TOKEN_FAIL,
@@ -67,7 +85,9 @@ func GetUserInfo(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{
-		"data": userInfo,
+		"data": User{
+			OpenId: userInfo.OpenId,
+		},
 		"code": e.SUCCESS,
 		"msg":  e.GetMsg(e.SUCCESS),
 	})

@@ -44,8 +44,8 @@ func init() {
 				host,
 				dbName)), &gorm.Config{
 			NamingStrategy: schema.NamingStrategy{
-				TablePrefix:   tablePrefix, // 表名前缀
-				SingularTable: true,        // 使用单数表名，启用该选项，表名将变为单数 tags -> tag
+				TablePrefix: tablePrefix, // 表名前缀
+				//SingularTable: true,        // 使用单数表名，启用该选项，表名将变为单数 tags -> tag
 			},
 		})
 

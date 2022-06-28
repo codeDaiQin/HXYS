@@ -16,4 +16,14 @@ const (
 	ERROR_AUTH_CHECK_TOKEN_TIMEOUT = 20002 // token鉴权超时
 	ERROR_AUTH_TOKEN               = 20003 // token生成失败
 	ERROR_NOT_EXIST_AUTH           = 20004 // token不存在
+
+	ADD_USER_FAIL  = 10101 // 新建用户失败
+	ADD_ORDER_FAIL = 11101 // 新建订单失败
+	ADD_GOODS_FAIL = 12101 // 新建商品失败
+
+	UPDATE_USER_FAIL    = 10011 // 更新用户失败
+	UPDATE_ORDER_FAIL   = 11011 // 更新订单失败
+	UPDATE_GOODS_FAIL   = 12011 // 更新商品失败
+	UPDATE_ADDRESS_FAIL = 13011 // 更新地址失败
+
 )

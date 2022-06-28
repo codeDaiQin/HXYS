@@ -28,7 +28,7 @@ export default React.memo(() => {
   const userState = useAppSelector(selectUser);
   const [form] = Form.useForm();
   const [popupVisible, setPopupVisible] = useState(false);
-  const [current, setCurrent] = useState(-1);
+  const [current, setCurrent] = useState(-1); // -1表示新增
   const [loading, setLoading] = useState(false);
   const [addressList, setAddressList] = useState<AddressType[]>([]);
 
@@ -87,7 +87,7 @@ export default React.memo(() => {
   useEffect(() => {
     // 数据同步到弹窗内
     addressList[current]
-      ? form.setFieldsValue({ ...addressList[current] })
+      ? form.setFieldsValue(addressList[current])
       : form.resetFields();
   }, [current, addressList]);
 
@@ -110,7 +110,6 @@ export default React.memo(() => {
                     <main>
                       {item.detailed}
                       <span>{item.phone}</span>
-
                       {item.consignee}
                     </main>
                   </section>
@@ -183,8 +182,8 @@ export default React.memo(() => {
                 <Input placeholder="手机号" />
               </Form.Item>
               <Form.Item
+                name="is_default"
                 layout="horizontal"
-                name="isDefault"
                 label="默认地址"
                 childElementPosition="right"
               >

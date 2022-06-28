@@ -7,8 +7,8 @@ import routers, { RouterType } from '@/config/router';
 import menu from '@/config/menu';
 import Error from '@/pages/error';
 import { querystring } from '@/utils';
-import { useAppDispatch, useAppSelector } from '@/models/store';
-import { getUserInfo, login, selectUser } from '@/models/user';
+import { useAppDispatch } from '@/models/store';
+import { getUserInfo, login } from '@/models/user';
 import local from '@/utils/localstorage';
 import { TOKEN_KEY } from '@/constants/local-storage-key';
 import styles from './index.module.scss';
@@ -73,10 +73,6 @@ export default memo(() => {
   };
 
   useEffect(() => {
-    // local.set(
-    //   TOKEN_KEY,
-    //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoib3FwQUU0LTkzZ3BMN3dhWVpEcF9Pd1cxaGw4USIsIkV4cGlyZXMiOiIyMDIyLTA3LTI3VDE3OjA4OjUxLjA4Nzk5MSswODowMCIsIk1hcENsYWltcyI6eyJ1c2VyX2lkIjoib3FwQUU0LTkzZ3BMN3dhWVpEcF9Pd1cxaGw4USJ9fQ.RdKoYcPRlqWrlC3-HiuhELL_p4Aveus0BcRRfdXAfXE'
-    // );
     init();
   }, []);
 

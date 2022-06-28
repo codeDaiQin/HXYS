@@ -20,11 +20,10 @@ func GetGoodsDetail(c *gin.Context) {
 		return
 	}
 
+	// 获取商品详情
 	maps := make(map[string]interface{})
 	maps["goods_id"] = goodsId
-
 	data, err := goods.GetGoodsDetail(maps)
-	// 商品不存在
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"code": e.ERROR_NOT_EXIST_GOODS,
