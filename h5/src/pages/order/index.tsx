@@ -5,6 +5,7 @@ export default React.memo(() => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  // getOrderList 获取订单列表
   const getOrderList = async () => {
     setLoading(true);
     console.log('getOrderList');

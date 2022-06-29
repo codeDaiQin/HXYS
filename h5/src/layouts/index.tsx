@@ -1,5 +1,6 @@
 import React, { useState, memo, Suspense, useEffect } from 'react';
 import { TabBar } from 'antd-mobile';
+import to from 'await-to-js';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import wx from 'weixin-js-sdk';
 import Loading from '@/components/Loading';
@@ -66,10 +67,16 @@ export default memo(() => {
         wx.miniProgram.redirectTo({ url: '/pages/login/login' }); // 跳转到登录页
         return;
       }
-      await dispatch(login(code));
+      const [err] = await to(dispatch(login(code)));
+      if (err) {
+        console.log(err, '登陆失败 跳转到登录页');
+      }
       return;
     }
-    await dispatch(getUserInfo());
+    const [err] = await to(dispatch(getUserInfo()));
+    if (err) {
+      console.log(err, '获取用户信息失败 跳转到登录页');
+    }
   };
 
   useEffect(() => {

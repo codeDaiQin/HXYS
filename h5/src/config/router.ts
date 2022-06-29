@@ -35,6 +35,12 @@ export default [
     showMenu: true
   },
   {
+    // 订单详情
+    path: '/order/detail',
+    title: '订单详情',
+    Component: lazy(() => import('@/pages/order/detail'))
+  },
+  {
     // 我的
     path: '/me',
     title: '我的',

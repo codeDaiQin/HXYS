@@ -17,17 +17,12 @@ export default React.memo(() => {
   const [loading, setLoading] = useState(false);
   const [detail, setDetail] = useState<GoodsDetailInfo>();
 
-  const doSearch = async () => {
-    const { goods_id } = querystring(location.search);
-    if (!goods_id) {
-      notice.error('没有id 跳转到列表页面');
-      return;
-    }
+  const doSearch = async (goods_id: string) => {
     setLoading(true);
     const [err, result] = await to(getGoodsDetail({ goods_id }));
 
-    if (err || !result) {
-      notice.error('获取详情失败');
+    if (err || !result?.goods_id) {
+      notice.error('获取详情失败 跳转到列表页面');
       setLoading(false);
       return;
     }
@@ -42,7 +37,12 @@ export default React.memo(() => {
   };
 
   useEffect(() => {
-    doSearch();
+    const { goods_id } = querystring(window.location.search);
+    if (!goods_id) {
+      notice.error('没有id 跳转到列表页面');
+      return;
+    }
+    doSearch(goods_id);
   }, []);
 
   return (

@@ -32,10 +32,9 @@ export const getUserInfo = createAsyncThunk(
   `${namespace}/getUserInfo`,
   async () => {
     const [err, user] = await to(getUserDetail());
-
     if (err) {
       notice.error('登陆状态过期');
-      throw user;
+      throw err;
     }
     return user;
   }
@@ -53,10 +52,12 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(login.fulfilled, (state, action) => {
+        console.log('login.fulfilled', action.payload);
         local.set(TOKEN_KEY, action.payload);
         state.token = action.payload;
       })
       .addCase(getUserInfo.fulfilled, (state, action) => {
+        console.log('getUserInfo.fulfilled', action.payload);
         state = { ...state, ...action.payload };
       });
   }

@@ -1,7 +1,7 @@
 type localStorageType = {
   time?: number;
   expires?: number;
-  value?: any;
+  value?: unknown;
 };
 
 const del = (name: string) => {
