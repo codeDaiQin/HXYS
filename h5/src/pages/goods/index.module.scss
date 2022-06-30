@@ -2,6 +2,7 @@
   .swiper-item {
     height: 30vh;
     position: relative;
+
     img {
       height: 100%;
       width: 100%;
@@ -10,6 +11,8 @@
 }
 
 .settlement-container {
+  height: 50px;
+  box-sizing: border-box;
   padding: 6px;
   background: #fff;
   position: fixed;
@@ -24,6 +27,7 @@
 .popup-container {
   padding: 8px;
   position: relative;
+
   .icon-close {
     position: absolute;
     right: 16px;
@@ -31,10 +35,16 @@
     cursor: pointer;
   }
 
+  .search-container {
+    padding: 12px;
+    border-bottom: solid 1px var(--adm-color-border);
+  }
+
   header {
     display: flex;
     align-items: center;
     margin-bottom: 8px;
+
     p {
       margin: 0 0 0 12px;
     }
@@ -47,4 +57,9 @@
     right: 0;
     padding: 8px;
   }
+}
+
+.goods-container {
+  padding: 8px;
+  margin-bottom: 50px;
 }

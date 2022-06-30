@@ -12,7 +12,7 @@
   flex-direction: column;
   .main {
     flex: 1;
-    overflow: hidden;
+    overflow-y: auto;
     background: rgb(245, 247, 250);
   }
 

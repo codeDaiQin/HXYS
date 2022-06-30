@@ -1,7 +1,10 @@
 package auth
 
 import (
+	"HXYS/libs"
+	"HXYS/models/user"
 	"HXYS/pkg/setting"
+	"context"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
 	"time"
@@ -15,6 +18,9 @@ type Claims struct {
 
 // TokenExpireDuration token 过期时间 默认为 30 天
 const TokenExpireDuration = time.Hour * 24 * 30
+
+// ctx context.Background()
+var ctx = context.Background()
 
 // jwtSecret jwt 密钥
 var jwtSecret = []byte(setting.JwtSecret)
@@ -69,4 +75,14 @@ func ClearToken(c *gin.Context) {
 // GetTokenList 获取 token 列表
 func GetTokenList(c *gin.Context) {
 
+}
+
+// SaveToken 保存 token
+func SaveToken(token string, userInfo *user.User) (err error) {
+	// 存储到 redis
+	err = libs.RedisClient.Set(ctx, token, userInfo, TokenExpireDuration).Err()
+	if err != nil {
+		print(err)
+	}
+	return err
 }

@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import { Card, Steps, FloatingBubble, Rate } from 'antd-mobile';
 import Loading from '@/components/Loading';
 import { querystring } from '@/utils';
 import notice from '@/utils/notice';
-import { Card, Steps } from 'antd-mobile';
-import { OrderDetailInfo, OrderStepEnum } from '@/interface/order';
+import {
+  OrderDetailInfo,
+  OrderStepEnum,
+  OrderTypeEnum
+} from '@/interface/order';
+import { MessageFill } from 'antd-mobile-icons';
+import Evaluation from './Evaluation';
 const { Step } = Steps;
 
 export default React.memo(() => {
@@ -42,27 +48,42 @@ export default React.memo(() => {
     getOrderDetail(order_id);
   }, []);
 
+  // if (!detail?.orderId) return null;
+
   return (
     <Loading loading={loading}>
-      {!!steps?.length && (
-        <Card
-          title="订单状态"
-          onClick={() => {
-            console.log('go to address');
-          }}
-        >
-          <Steps direction="vertical">
-            {steps?.map(({ step_id, content, time, status }) => (
-              <Step
-                key={step_id}
-                title={content}
-                description={time}
-                status={OrderStepEnum[status] as keyof typeof OrderStepEnum}
-              />
-            ))}
-          </Steps>
+      <Card title="订单详情">{detail?.createTime}</Card>
+
+      <Card style={{ marginTop: 8 }} title="订单状态">
+        <Steps direction="vertical">
+          {steps?.map(({ step_id, content, time, status }) => (
+            <Step
+              key={step_id}
+              title={content}
+              description={time}
+              status={OrderStepEnum[status] as keyof typeof OrderStepEnum}
+            />
+          ))}
+        </Steps>
+      </Card>
+
+      {detail?.status !== OrderTypeEnum.Completed && (
+        <Card style={{ marginTop: 8 }}>
+          <Evaluation onSubmit={console.log} />
         </Card>
       )}
+
+      <FloatingBubble
+        axis="xy"
+        magnetic="x"
+        style={{
+          '--initial-position-bottom': '24px',
+          '--initial-position-right': '24px',
+          '--edge-distance': '24px'
+        }}
+      >
+        <MessageFill fontSize={32} />
+      </FloatingBubble>
     </Loading>
   );
 });

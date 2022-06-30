@@ -45,6 +45,19 @@ func WechatLogin(c *gin.Context) {
 		return
 	}
 
+	// 获取用户信息
+	userInfo, err := user.GetUserInfoByOpenId(session.Openid)
+
+	// redis存储token 用户信息
+
+	if err := auth.SaveToken(token, userInfo); err != nil {
+		c.JSON(400, gin.H{
+			"code": e.ERROR,
+			"msg":  e.GetMsg(e.ERROR),
+		})
+		return
+	}
+
 	c.JSON(200, gin.H{
 		"data": token,
 		"code": e.SUCCESS,

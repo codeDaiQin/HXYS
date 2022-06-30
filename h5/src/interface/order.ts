@@ -38,6 +38,7 @@ export type OrderDetailInfo = {
   address: AddressType; // 收货地址
   goods: GoodsDetailInfo;
   steps: OrderStep[]; // 订单进度
+  rate: number; // 评分
 } & OrderBaseInfo;
 
 // 订单列表请求

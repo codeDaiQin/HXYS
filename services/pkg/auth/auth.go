@@ -4,6 +4,7 @@ import (
 	"HXYS/pkg/e"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"time"
 )
 
 // Auth 用户认证 中间件
@@ -30,10 +31,14 @@ func Auth() gin.HandlerFunc {
 				c.Abort()
 				return
 			}
-			//else if time.Now().Unix() > claims.Expires.Unix() {
-			//	code = e.ERROR_AUTH_CHECK_TOKEN_TIMEOUT
-			//}
-			//println(time.Now().Unix(), claims.Expires.Unix())
+			if time.Now().Unix() > claims.Expires.Unix() {
+				c.JSON(http.StatusUnauthorized, gin.H{
+					"code": e.ERROR_AUTH_CHECK_TOKEN_TIMEOUT,
+					"msg":  e.GetMsg(e.ERROR_AUTH_CHECK_TOKEN_TIMEOUT),
+				})
+				c.Abort()
+				return
+			}
 		}
 
 		c.Next()
