@@ -12,7 +12,7 @@ const DynamicForm: React.FC<DynamicFormProps> = (props) => {
     <div>
       <Form>
         {specs.map((item) => (
-          <Form.Item>11</Form.Item>
+          <Form.Item></Form.Item>
         ))}
       </Form>
     </div>

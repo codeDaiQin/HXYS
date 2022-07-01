@@ -11,6 +11,7 @@
 }
 
 .settlement-container {
+  border-top: 1px solid #d9dee2;
   height: 50px;
   box-sizing: border-box;
   padding: 6px;
@@ -24,6 +25,11 @@
   align-items: center;
 }
 
+.goods-container {
+  padding: 8px;
+  margin-bottom: 50px;
+}
+
 .popup-container {
   padding: 8px;
   position: relative;
@@ -34,32 +40,4 @@
     top: 16px;
     cursor: pointer;
   }
-
-  .search-container {
-    padding: 12px;
-    border-bottom: solid 1px var(--adm-color-border);
-  }
-
-  header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 8px;
-
-    p {
-      margin: 0 0 0 12px;
-    }
-  }
-
-  footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 8px;
-  }
-}
-
-.goods-container {
-  padding: 8px;
-  margin-bottom: 50px;
 }

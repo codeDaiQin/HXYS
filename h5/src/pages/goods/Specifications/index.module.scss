@@ -1,0 +1,22 @@
+.search-container {
+  padding: 12px;
+  border-bottom: solid 1px var(--adm-color-border);
+}
+
+header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+
+  p {
+    margin: 0 0 0 12px;
+  }
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 8px;
+}

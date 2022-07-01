@@ -16,3 +16,7 @@ export const getGoodsDetail = async ({
   goods_id
 }: GoodsDetailRequest): Promise<GoodsDetailResponse> =>
   request.get(`/api/v1/goods/${goods_id}`);
+
+// 购买商品
+export const buyGoods = async (): Promise<any> =>
+  request.post('/api/v1/goods/buy');

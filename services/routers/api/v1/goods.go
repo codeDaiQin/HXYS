@@ -23,7 +23,7 @@ func GetGoodsDetail(c *gin.Context) {
 	// 获取商品详情
 	maps := make(map[string]interface{})
 	maps["goods_id"] = goodsId
-	data, err := goods.GetGoodsDetail(maps)
+	goodsInfo, err := goods.GetGoodsDetail(maps)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"code": e.ERROR_NOT_EXIST_GOODS,
@@ -35,7 +35,7 @@ func GetGoodsDetail(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"code": e.SUCCESS,
 		"msg":  e.GetMsg(e.SUCCESS),
-		"data": data,
+		"data": goodsInfo,
 	})
 }
 

@@ -1,5 +1,5 @@
-import { Button, Form, ImageUploader, Rate, TextArea } from 'antd-mobile';
 import React from 'react';
+import { Button, Form, ImageUploader, Rate, TextArea } from 'antd-mobile';
 
 type EvaluationForm = {
   service_attitude: number; // 服务态度
@@ -25,7 +25,6 @@ export default React.memo((props: EvaluationProps) => {
   return (
     <Form
       mode="card"
-      // layout="horizontal"
       form={form}
       footer={
         <Button block color="primary" onClick={handleSubmit} size="mini">
