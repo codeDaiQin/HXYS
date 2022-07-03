@@ -67,6 +67,7 @@ export default memo(() => {
         wx.miniProgram.redirectTo({ url: '/pages/login/login' }); // 跳转到登录页
         return;
       }
+
       const [err] = await to(dispatch(login(code)));
       if (err) {
         console.log(err, '登陆失败 跳转到登录页');
