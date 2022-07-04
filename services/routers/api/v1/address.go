@@ -77,7 +77,7 @@ func GetAddressList(c *gin.Context) {
 
 // EditAddress 更新地址
 func EditAddress(c *gin.Context) {
-	var requestData address.Address
+	var requestData address.Response
 	c.BindJSON(&requestData)
 	// 获取参数
 	consignee := requestData.Consignee
@@ -164,7 +164,7 @@ func EditAddress(c *gin.Context) {
 
 // AddAddress 新增地址
 func AddAddress(c *gin.Context) {
-	var requestData address.Address
+	var requestData address.Response
 	c.BindJSON(&requestData)
 	// 获取参数
 	consignee := requestData.Consignee
@@ -186,7 +186,7 @@ func AddAddress(c *gin.Context) {
 		return
 	}
 
-	if err := address.AddAddress(detailed, consignee, phone); err != nil {
+	if err := address.AddAddress(requestData); err != nil {
 		c.JSON(400, gin.H{
 			"code": e.ADD_GOODS_FAIL,
 			"msg":  e.GetMsg(e.ADD_GOODS_FAIL),
@@ -221,6 +221,7 @@ func DeleteAddress(c *gin.Context) {
 		})
 		return
 	}
+
 	c.JSON(http.StatusOK, gin.H{
 		"code": e.SUCCESS,
 		"msg":  e.GetMsg(e.SUCCESS),

@@ -52,12 +52,10 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(login.fulfilled, (state, action) => {
-        console.log('login.fulfilled', action.payload);
         local.set(TOKEN_KEY, action.payload);
         state.token = action.payload;
       })
       .addCase(getUserInfo.fulfilled, (state, action) => {
-        console.log('getUserInfo.fulfilled', action.payload);
         state = { ...state, ...action.payload };
       });
   }

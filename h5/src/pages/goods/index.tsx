@@ -9,8 +9,6 @@ import { querystring } from '@/utils';
 import notice from '@/utils/notice';
 import { GoodsDetailInfo } from '@/interface/goods';
 import { getGoodsDetail } from '@/services/goods';
-import { AddressType } from '@/interface/address';
-import { getAddressList } from '@/services/address';
 import styles from './index.module.scss';
 
 // 商品模块
@@ -21,7 +19,6 @@ export default React.memo(() => {
   const [popupVisible, setPopupVisible] = useState(false); // 商品规格抽屉
   const [loading, setLoading] = useState(false);
   const [detail, setDetail] = useState<GoodsDetailInfo>();
-  const [addressList, setAddressList] = useState<AddressType[]>([]);
 
   // 获取商品详情
   const fetchGoodsData = async (goods_id: string) => {
@@ -43,20 +40,6 @@ export default React.memo(() => {
     setLoading(false);
   };
 
-  // 获取地址列表
-  const fetchAddressData = async () => {
-    setLoading(true);
-    const [err, result] = await to(getAddressList());
-    if (err) {
-      notice.error('获取地址失败, 请重试');
-      setLoading(false);
-      return;
-    }
-
-    setAddressList(result.list);
-    setLoading(false);
-  };
-
   // 立即购买
   const handleBuy = () => {
     notice.success('立即购买');
@@ -68,7 +51,6 @@ export default React.memo(() => {
       return;
     }
     fetchGoodsData(goods_id);
-    fetchAddressData();
   }, []);
 
   if (!goods_id || !detail?.goods_id) return null;
@@ -110,7 +92,7 @@ export default React.memo(() => {
       </main>
 
       <footer className={styles['settlement-container']}>
-        <Button onClick={() => setPopupVisible(true)}>收藏</Button>
+        <Button>收藏</Button>
         <Button
           color="primary"
           onClick={() => {
@@ -136,7 +118,6 @@ export default React.memo(() => {
             className={styles['icon-close']}
           />
           <Specifications
-            addressList={addressList}
             handleSubmit={() => {
               console.log(1);
             }}

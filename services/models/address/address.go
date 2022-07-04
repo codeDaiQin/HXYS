@@ -9,6 +9,13 @@ type Address struct {
 	Detailed  string `json:"detailed"`  // 详细地址
 	Consignee string `json:"consignee"` // 收货人
 	Phone     string `json:"phone"`     // 手机号``
+}
+
+type Response struct {
+	AddressId int    `gorm:"primary_key" json:"address_id"`
+	Detailed  string `json:"detailed"`  // 详细地址
+	Consignee string `json:"consignee"` // 收货人
+	Phone     string `json:"phone"`     // 手机号``
 
 	IsDefault bool `json:"is_default"` // 是否默认地址
 }
@@ -16,7 +23,7 @@ type Address struct {
 const TableName = "HXYS_address"
 
 // GetAddressList	获取地址列表
-func GetAddressList(maps interface{}) (addressList []Address, err error) {
+func GetAddressList(maps interface{}) (addressList []Response, err error) {
 	err = libs.Db.Table(TableName).Where(maps).Find(&addressList).Error
 	return
 }
@@ -28,12 +35,13 @@ func GetAddressTotal(maps interface{}) (count int64) {
 }
 
 // AddAddress 新增地址
-func AddAddress(detailed, consignee, phone string) (err error) {
-	err = libs.Db.Table(TableName).Create(&Address{
-		Detailed:  detailed,
-		Consignee: consignee,
-		Phone:     phone,
-	}).Error
+func AddAddress(address Response) (err error) {
+
+	err = libs.Db.Table(TableName).Create(address).Error
+	if address.IsDefault {
+		//	将user表中的is_default字段置为对应的address_id
+
+	}
 	return
 }
 

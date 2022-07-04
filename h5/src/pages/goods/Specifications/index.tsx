@@ -1,30 +1,20 @@
 import React, { memo, useState } from 'react';
-import {
-  Avatar,
-  Button,
-  Card,
-  CheckList,
-  Popup,
-  SearchBar,
-  Form
-} from 'antd-mobile';
+import { Avatar, Button, Card, Popup, SearchBar } from 'antd-mobile';
 import DynamicForm from '@/components/DynamicForm';
 import LineButton from '@/components/LineButton';
 import styles from './index.module.scss';
-import { AddressType } from '@/interface/address';
 import AddressSelcet from '@/components/AddressSelcet';
+import { AddressType } from '@/interface/address';
 
 type SpecificationsProps = {
   handleSubmit: () => void;
-  addressList: AddressType[];
 };
 
 // specifications 商品规格选择模块
 const Specifications: React.FC<SpecificationsProps> = (props) => {
-  const { handleSubmit, addressList } = props;
-  const [form] = Form.useForm();
-  // const [addressList, setAddressList] = useState<AddressType[]>([]);
+  const { handleSubmit } = props;
   const [showAddress, setShowAddress] = useState(false);
+  const [addressValue, setAddressValue] = useState<AddressType | null>(null);
 
   return (
     <div>
@@ -33,7 +23,9 @@ const Specifications: React.FC<SpecificationsProps> = (props) => {
         {/* <p>{detail?.goods_name}</p> */}
       </header>
       <Card bodyStyle={{ padding: 0 }}>
-        <LineButton onClick={() => setShowAddress(true)}>选择地址</LineButton>
+        <LineButton onClick={() => setShowAddress(true)}>
+          {addressValue?.detailed ?? '选择地址'}
+        </LineButton>
         <Popup
           getContainer={null}
           visible={showAddress}
@@ -42,30 +34,16 @@ const Specifications: React.FC<SpecificationsProps> = (props) => {
           }}
           destroyOnClose
         >
-          <div className={styles['search-container']}>
-            <SearchBar
-              placeholder="输入文字过滤选项"
-              // value={searchText}
-              // onChange={(v) => {
-              //   setSearchText(v);
-              // }}
-            />
-          </div>
-          <AddressSelcet type="check" />
-          {/* <CheckList
-            defaultValue={[
-              `${addressList.find((item) => item.is_default)?.address_id}`
-            ]}
-          >
-            {addressList.map((item) => (
-              <CheckList.Item
-                key={item.address_id}
-                value={`${item.address_id}`}
-              >
-                {item.detailed}
-              </CheckList.Item>
-            ))}
-          </CheckList> */}
+          <AddressSelcet
+            value={addressValue}
+            onChange={(v) => {
+              console.log(v);
+
+              setAddressValue(v);
+              setShowAddress(false);
+            }}
+            type="check"
+          />
         </Popup>
       </Card>
 

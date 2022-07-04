@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect, useMemo, useState } from 'react';
 import {
   List,
   Popup,
@@ -9,7 +9,8 @@ import {
   TextArea,
   Empty,
   NavBar,
-  CheckList
+  CheckList,
+  SearchBar
 } from 'antd-mobile';
 import to from 'await-to-js';
 import Loading from '@/components/Loading';
@@ -21,26 +22,38 @@ import {
 } from '@/services/address';
 import { AddressFormType, AddressType } from '@/interface/address';
 import notice from '@/utils/notice';
-import { useAppSelector } from '@/models/store';
-import { selectUser } from '@/models/user';
 import styles from './index.module.scss';
 
 type AddressSelectProps = {
   type?: 'check' | 'list';
   handleClick?: () => void;
+  value?: AddressType | null;
+  onChange?: (value: AddressType | null) => void;
 };
 
 const AddressSelect: React.FC<AddressSelectProps> = (props) => {
-  const { type = 'list', handleClick } = props;
+  const { type = 'list', handleClick, value = null, onChange } = props;
   const RenderList = type === 'list' ? List : CheckList;
-  const userState = useAppSelector(selectUser);
   const [form] = Form.useForm();
   const [popupVisible, setPopupVisible] = useState(false);
-  const [current, setCurrent] = useState(-1); // -1表示新增
   const [loading, setLoading] = useState(false);
   const [addressList, setAddressList] = useState<AddressType[]>([]);
+  const [selectValue, setSelectValue] = useState<AddressType | null>(value);
+  const [searchText, setSearchText] = useState('');
+  const filterList = useMemo(
+    () =>
+      searchText
+        ? addressList.filter(
+            ({ detailed, consignee, phone }) =>
+              detailed.includes(searchText) ||
+              consignee.includes(searchText) ||
+              phone.includes(searchText)
+          )
+        : addressList,
+    [addressList, searchText]
+  ); // 过滤要查询的关键字
 
-  const fetchData = async () => {
+  const fetchAddressList = async () => {
     setLoading(true);
     const [err, result] = await to(getAddressList());
     if (err) {
@@ -54,16 +67,23 @@ const AddressSelect: React.FC<AddressSelectProps> = (props) => {
   };
 
   // 每一项点击事件
-  const handleItemClick = (index = -1) => {
+  const handleItemClick = (item: AddressType) => {
     handleClick && handleClick();
-    // checkList时不做处理
+    setSelectValue(item);
+    onChange && onChange(item);
+    // checkList时不做弹出编辑页面处理
     if (type === 'check') return;
     setPopupVisible(true);
-    setCurrent(index);
+  };
+
+  // 新增地址
+  const handleAdd = () => {
+    setPopupVisible(true);
+    setSelectValue(null);
   };
 
   const handleDelete = async () => {
-    const { address_id } = addressList[current];
+    const { address_id } = selectValue ?? {};
     if (!address_id) return;
     setLoading(true);
 
@@ -74,14 +94,13 @@ const AddressSelect: React.FC<AddressSelectProps> = (props) => {
       return;
     }
 
-    fetchData(); // 获取新列表
+    fetchAddressList(); // 获取新列表
     setPopupVisible(false); // 关闭弹窗
     notice.success('操作成功');
   };
 
   const handleSubmit = async (values: AddressFormType) => {
-    const { address_id } = addressList[current];
-
+    const { address_id } = selectValue ?? {};
     const [err] = await to(
       address_id ? updateAddress(address_id, values) : addAddress(values)
     );
@@ -91,33 +110,38 @@ const AddressSelect: React.FC<AddressSelectProps> = (props) => {
       return;
     }
 
-    fetchData(); // 获取新列表
+    fetchAddressList(); // 获取新列表
     setPopupVisible(false); // 关闭弹窗
     notice.success('操作成功');
   };
 
   useEffect(() => {
     // 数据同步到弹窗内
-    addressList[current]
-      ? form.setFieldsValue(addressList[current])
-      : form.resetFields();
-  }, [current, addressList]);
+    selectValue ? form.setFieldsValue(selectValue) : form.resetFields();
+  }, [selectValue, addressList]);
 
   useEffect(() => {
-    fetchData();
+    fetchAddressList();
   }, []);
 
   return (
     <Loading loading={loading}>
       <div className={styles['address-container']}>
+        <div className={styles['search-container']}>
+          <SearchBar
+            placeholder="输入文字过滤选项"
+            value={searchText}
+            onChange={setSearchText}
+          />
+        </div>
         <main>
-          <RenderList>
-            {addressList?.length ? (
-              addressList.map((item, index) => (
+          <RenderList defaultValue={[`${selectValue?.address_id}`]}>
+            {filterList?.length ? (
+              filterList.map((item) => (
                 <RenderList.Item
                   value={`${item.address_id}`}
                   key={item.address_id}
-                  onClick={() => handleItemClick(index)}
+                  onClick={() => handleItemClick(item)}
                 >
                   <section className={styles['list-item']}>
                     <main>
@@ -143,7 +167,7 @@ const AddressSelect: React.FC<AddressSelectProps> = (props) => {
           <div className={styles['popup-container']}>
             <NavBar
               right={
-                current > -1 && (
+                selectValue && (
                   <Button size="mini" onClick={handleDelete}>
                     删除
                   </Button>
@@ -151,7 +175,7 @@ const AddressSelect: React.FC<AddressSelectProps> = (props) => {
               }
               onBack={() => setPopupVisible(false)}
             >
-              {current > -1 ? '编辑' : '新增'}收货地址
+              {selectValue ? '编辑' : '新增'}收货地址
             </NavBar>
             <Form
               form={form}
@@ -208,7 +232,7 @@ const AddressSelect: React.FC<AddressSelectProps> = (props) => {
 
         {type === 'list' && (
           <footer className={styles['add-container']}>
-            <Button block onClick={() => handleItemClick()}>
+            <Button block onClick={handleAdd}>
               新增
             </Button>
           </footer>
