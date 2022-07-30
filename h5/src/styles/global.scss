@@ -2,6 +2,10 @@ body {
   margin: 0;
 }
 
-.li-shu {
-  font-size: LiSu;
+.adm-capsule-tabs-header {
+  padding: 0;
+
+  .adm-capsule-tabs-tab {
+    padding: 4px 8px;
+  }
 }

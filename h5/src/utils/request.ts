@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosRequestHeaders } from 'axios';
 import { TOKEN_KEY } from '@/constants/local-storage-key';
 import local from './localstorage';
 
@@ -14,7 +14,7 @@ request.interceptors.request.use(
       config.headers = {
         Authorization: local.get(TOKEN_KEY),
         ...config.headers
-      };
+      } as AxiosRequestHeaders;
     }
     return config;
   },

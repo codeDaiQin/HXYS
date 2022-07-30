@@ -74,6 +74,7 @@ export default memo(() => {
       }
       return;
     }
+
     const [err] = await to(dispatch(getUserInfo()));
     if (err) {
       console.log(err, '获取用户信息失败 跳转到登录页');

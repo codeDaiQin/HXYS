@@ -1,31 +1,49 @@
-import { PaginationType } from '@/interface';
-import { CapsuleTabs, List, Tag } from 'antd-mobile';
 import React, { useEffect, useState } from 'react';
-
-type CommentTag = {
-  id: number;
-  count: number; // 数量
-  content: string; // 标签内容
-};
+import { CapsuleTabs, Empty, List, Space, Tag } from 'antd-mobile';
+import { PaginationType } from '@/interface';
+import {
+  GoodsCommentListResponse,
+  GoodsCommentType,
+  TagsType
+} from '@/interface/goods';
+import styles from './index.module.scss';
 
 type CommentProps = {
   id?: number;
 } & PaginationType;
 
+const data: GoodsCommentListResponse = {
+  tags: {
+    red: 1,
+    '标签🏷️': 3124,
+    test: 132,
+    f: 123,
+    '🐷': 23,
+    fsafa: 123123
+  },
+  list: [
+    {
+      comment_id: '312'
+    }
+  ],
+  total: 1
+};
+
 // Comment 评论
 export default React.memo((props: CommentProps) => {
   const { pageSize = 2 } = props;
-  const [tags, setTags] = useState<CommentTag[]>([]); // 评论标签
+  const [commentTags, setCommentTags] = useState<TagsType>({}); // 评论标签
+  const [commentList, setCommentList] = useState<GoodsCommentType[]>([]);
   const [total, setTotal] = useState(0);
 
   const fetchData = () => {
-    setTags([
-      {
-        id: 13,
-        content: '4124',
-        count: 213
-      }
-    ]);
+    const { tags, list, total } = data;
+    setCommentTags(tags);
+    setCommentList(list);
+  };
+
+  const handleTabsChange = (key: string) => {
+    console.log(key);
   };
 
   useEffect(() => {
@@ -34,9 +52,16 @@ export default React.memo((props: CommentProps) => {
 
   return (
     <div>
-      {tags.map((tag) => (
-        <Tag key={tag.id}>{tag.content}</Tag>
-      ))}
+      <header>
+        <CapsuleTabs onChange={handleTabsChange}>
+          {Object.entries(commentTags).map(([key, value]) => (
+            <CapsuleTabs.Tab key={key} title={`${key}: ${value}`} />
+          ))}
+        </CapsuleTabs>
+      </header>
+      <main>
+        {commentList.length ? commentList.map(() => <h1>123</h1>) : <Empty />}
+      </main>
     </div>
   );
 });

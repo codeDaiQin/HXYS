@@ -33,7 +33,7 @@ export type GoodsBaseInfo = {
 // 商品详情信息
 export type GoodsDetailInfo = {
   price: number; // 价格
-  specs: []; // 规格
+  specs: SpecsType[]; // 规格
 } & GoodsBaseInfo;
 
 // 商品详情请求
@@ -48,3 +48,15 @@ export type GoodsListRequest = Pick<GoodsBaseInfo, 'goods_type'> &
 
 // 商品列表响应
 export type GoodsListResponse = ListResponse<GoodsBaseInfo>;
+
+// 商品评价
+export type GoodsCommentType = {
+  comment_id: string;
+};
+
+export type TagsType = Record<string, number>;
+
+// 商品评价响应
+export type GoodsCommentListResponse = ListResponse<GoodsCommentType> & {
+  tags: TagsType;
+};

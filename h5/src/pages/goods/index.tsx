@@ -83,7 +83,11 @@ export default React.memo(() => {
       />
       <main className={styles['goods-container']}>
         <Card title="宝贝详情">{detail.goods_name}</Card>
-        <Card title="宝贝评价" style={{ marginTop: 8 }}>
+        <Card
+          title="宝贝评价"
+          bodyStyle={{ padding: 0 }}
+          style={{ marginTop: 8 }}
+        >
           <Comment />
         </Card>
         <Card title="看了又看" style={{ marginTop: 8 }}>
